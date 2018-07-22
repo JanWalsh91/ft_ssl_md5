@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/11/03 16:45:07 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/22 15:44:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+/*
+** Computes and returns the length of the string.
+** Excludes the null terminating character.
+** Unlike the standard library's strlen, it returns 0 if thr string is NULL;
+*/
 
-int	main(int ac, char **av)
+#include "helper_functions.h"
+
+size_t	ft_strlen(const char *s)
 {
-	(void)ac;
-	(void)av;
+	size_t	i;
 
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	i = 0;
+	while (s && s[i])
+		++i;
+	return (i);
 }

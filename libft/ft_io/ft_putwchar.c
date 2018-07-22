@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putwchar.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/01/05 17:17:05 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/01/06 14:02:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+/*
+** Writes the wide character c to the standard output.
+*/
+
+int	ft_putwchar(wchar_t c)
 {
-	(void)ac;
-	(void)av;
-
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	return (ft_putwchar_fd(c, 1));
 }

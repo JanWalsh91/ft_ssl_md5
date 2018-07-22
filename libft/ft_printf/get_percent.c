@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_percent.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/01/08 16:34:37 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/01/15 15:55:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "ft_printf.h"
 
-int	main(int ac, char **av)
+/*
+** Gets a string with '%' for % type conversions.
+*/
+
+int	get_percent(t_arg *arg)
 {
-	(void)ac;
-	(void)av;
-
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	if (!(arg->result = ft_ustrnew(1)))
+		return (0);
+	arg->result[0] = '%';
+	return (1);
 }

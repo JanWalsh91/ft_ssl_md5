@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/11/03 16:18:58 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/01/06 15:21:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+/*
+** Writes n \0 to the string s.
+** If n is 0, ft_bzero does nothing.
+*/
 
-int	main(int ac, char **av)
+#include "libft.h"
+
+void	ft_bzero(void *s, size_t n)
 {
-	(void)ac;
-	(void)av;
-
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	if (n > 0)
+		ft_memset(s, 0, n);
 }

@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_wstrlen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/01/05 15:54:43 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/01/10 14:24:24 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+/*
+** Computes and returns the length of a wide character string.
+** Excludes the null temrinating character.
+*/
 
-int	main(int ac, char **av)
+#include "libft.h"
+
+size_t	ft_wstrlen(const wchar_t *s)
 {
-	(void)ac;
-	(void)av;
+	size_t	i;
 
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	i = 0;
+	while (s && s[i])
+		++i;
+	return (i);
 }

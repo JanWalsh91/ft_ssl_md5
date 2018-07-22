@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_ispunct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jwalsh <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/12/01 11:33:09 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/01/21 15:41:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+/*
+** Returns 1 if c is punctuation, 0 if not.
+*/
 
-int	main(int ac, char **av)
+#include "libft.h"
+
+int	ft_ispunct(int c)
 {
-	(void)ac;
-	(void)av;
-
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	return ((33 <= c && c <= 47) ||
+			(58 <= c && c <= 64) ||
+			(91 <= c && c <= 96) ||
+			(123 <= c && c <= 126));
 }

@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/12/30 18:34:54 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/04/12 15:13:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+/*
+** Puts the uppercase chars in a char string to lowercase.
+*/
+
+void	ft_strtolower(char *s)
 {
-	(void)ac;
-	(void)av;
+	int	i;
 
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	i = -1;
+	while (s && s[++i])
+		ft_isupper(s[i]) ? s[i] = ft_tolower(s[i]) : 0;
 }

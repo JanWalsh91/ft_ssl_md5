@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/11/03 17:04:01 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/03/18 16:49:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+/*
+** Allocated sufficient memory for a copy of the string s1, does the copy,
+** and returns a pointer to it. The pointer may subsequendly be used as an
+** argument to the function free(3).
+*/
 
-int	main(int ac, char **av)
+#include "libft.h"
+
+char	*ft_strdup(char *src)
 {
-	(void)ac;
-	(void)av;
+	char	*new;
 
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
+	if (!(new = (char*)ft_memalloc(sizeof(char) * (ft_strlen(src) + 1))))
+		return (NULL);
+	return (ft_strcpy(new, src));
 }

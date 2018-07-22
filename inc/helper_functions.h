@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   helper_functions.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/22 15:46:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#ifndef HELPER_FUNCTIONS_H
+# define HELPER_FUNCTIONS_H
 
-int	main(int ac, char **av)
-{
-	(void)ac;
-	(void)av;
+# include <unistd.h>
 
-	if (ac == 1)
-		print_usage();
+void	ft_putchar(char c);
+void	ft_putstr(char const *s);
+size_t	ft_strlen(const char *s);
 
-	if (ac > 1)
-	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
-	}
-
-	return (0);	
-}
+#endif

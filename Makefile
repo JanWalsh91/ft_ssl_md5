@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/19 13:45:09 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/22 16:19:56 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,17 +17,31 @@ CFLAGS = -Wall -Werror -Wextra
 
 # Sources #
 
-SRCS = main.c
+SRCS = main.c \
+	print_usage.c
 
-HEADERS = ft_ssl.h
-HEADER_DIR = inc/
+SRCS_HELPER_FUNCTIONS = ft_putchar.c \
+	ft_putstr.c \
+	ft_strlen.c
+
+HEADER = ft_ssl.h
+HEADER_DIR = ./inc
+HEADER_HELPER_FUNCTIONS = helper_functions.h
 
 OBJS := $(SRCS:.c=.o)
+OBJS_HELPER_FUNCTIONS := $(SRCS_HELPER_FUNCTIONS:.c=.o)
+
 SRCS_DIR := ./src
+SRCS_HELPER_FUNCTIONS_DIR := helper_functions
 OBJS_DIR := ./obj
-HEADERS := $(addprefix $(HEADER_DIR)/, $(HEADERS))
+
+HEADER := $(addprefix $(HEADER_DIR)/, $(HEADER))
+HEADER_HELPER_FUNCTIONS := $(addprefix $(HEADER_DIR)/, $(HEADER_HELPER_FUNCTIONS))
 OBJS := $(addprefix $(OBJS_DIR)/, $(OBJS))
+OBJS_HELPER_FUNCTIONS := $(addprefix $(OBJS_DIR)/, $(OBJS_HELPER_FUNCTIONS))
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
+SRCS_HELPER_FUNCTIONS := $(addprefix $(SRCS_HELPER_FUNCTIONS_DIR)/, $(SRCS_HELPER_FUNCTIONS))
+SRCS_HELPER_FUNCTIONS := $(addprefix $(SRCS_DIR)/, $(SRCS_HELPER_FUNCTIONS))
 
 # Colors #
 
@@ -52,17 +66,19 @@ debug:
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(CXX) $(CFLAGS) -I$(HEADER_DIR) $< -o $@
+$(NAME): $(OBJS) $(OBJS_HELPER_FUNCTIONS)
+	@$(CXX) $(CFLAGS) -o $@ $^
 	@echo "$(C_CYAN)$(NAME) compiled$(C_NONE)"
 
-$(OBJS): $(SRCS) $(HEADERS)
-	@$(CXX) -I$(HEADER_DIR) $(CFLAGS) -o $@ -c $< -g
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER) $(HEADER_HELPER_FUNCTIONS)
+	@echo "$(C_CYAN)Compiling $<$(C_NONE)"
+	@/bin/mkdir -p $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -o $@ $< -I$(HEADER_DIR) -c
 
-$(OBJS): | $(OBJS_DIR)
-
-$(OBJS_DIR):
-	@mkdir -p $(OBJS_DIR)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/$(SRCS_HELPER_FUNCTIONS_DIR)/%.c $(HEADER_HELPER_FUNCTIONS)
+	@echo "$(C_CYAN)Compiling $<$(C_NONE)"
+	@/bin/mkdir -p $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c -o $@ $<
 
 clean:
 	@-/bin/rm -rf $(OBJS_DIR)

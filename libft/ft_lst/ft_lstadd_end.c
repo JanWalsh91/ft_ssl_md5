@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_end.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:36:54 by jwalsh           ###   ########.fr       */
+/*   Created: 2017/01/30 12:25:17 by jwalsh            #+#    #+#             */
+/*   Updated: 2017/02/02 11:46:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+/*
+** Adds an elements to the end of a list.
+*/
+
+void	ft_lstadd_end(t_list **alist, t_list *n)
 {
-	(void)ac;
-	(void)av;
+	t_list	*l_ptr;
 
-	if (ac == 1)
-		print_usage();
-
-	if (ac > 1)
+	l_ptr = *alist;
+	if (n)
 	{
-		ft_putstr("arg: ");
-		ft_putstr(av[1]);
-		ft_putstr("\n");
+		if (!*alist)
+			*alist = n;
+		else
+		{
+			while (l_ptr->next)
+				l_ptr = l_ptr->next;
+			l_ptr->next = n;
+		}
 	}
-
-	return (0);	
 }
