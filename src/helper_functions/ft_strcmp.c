@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 16:45:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 16:44:41 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/11/04 13:07:04 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/22 16:44:02 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-** Computes and returns the length of the string.
-** Excludes the null terminating character.
-** Unlike the standard library's strlen, it returns 0 if thr string is NULL;
+** Compares two strings and returns a positive int if s1 > s2, 0 of s1 = s2,
+** or a negative int if s1 < s2. The comparision is done with unsigned chars.
 */
 
-#include "helper_functions.h"
-
-size_t	ft_strlen(const char *s)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (s && s[i])
-		++i;
-	return (i);
+	while (((unsigned char *)s1)[i] &&
+			((unsigned char *)s1)[i] == ((unsigned char *)s2)[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

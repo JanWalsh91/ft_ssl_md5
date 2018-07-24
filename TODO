@@ -21,10 +21,6 @@
 
 
 
-
-
-
-
 Allowed functions:
 ◦ open
 ◦ close
@@ -37,6 +33,41 @@ Must justify:
 ◦ exit
 
 
+-> just have a folder with helper functions
 
-- Create library from libft only with needed functions.
-	-> just have a folder with helper functions
+- list of commands, store in list
+- call on function pointer in list
+
+- evaluate arguments:
+- none: display usage
+- first arg: command
+	- md5
+	- sha256
+	- else : ft_ssl: Error: 'foobar' is an invalid command.
+- options:
+	- -s: interprets next arg as string to hash
+		- print in following format: 
+		- MD5 ("stringname") = 098f6bcd4621d373cade4e832627b4f6
+		- else print:
+			md5: option requires an argument -- s
+			usage: md5 [-pqrtx] [-s string] [files ...]
+		- can be called on mulitple times
+	- -q: quiet mode. Prints only the resulting hash (checksum)
+		- MD5 (file) = 53d53ea94217b259c11a5a2d104ec58a
+		-> 53d53ea94217b259c11a5a2d104ec58a
+		- overrides -r options
+	- -p: print input string before hash
+	- -r: reverse output
+		- any output is reversed as follows:
+			- MD5 ("test") = 098f6bcd4621d373cade4e832627b4f6
+			-> 098f6bcd4621d373cade4e832627b4f6 "test"
+			- MD5 (file) = 53d53ea94217b259c11a5a2d104ec58a
+			-> 53d53ea94217b259c11a5a2d104ec58a file
+		- Must come before any file is read. Or else:
+			- md5: -r: No such file or directory
+	- file name:
+		- output: MD5 (filename) = 53d53ea94217b259c11a5a2d104ec58a
+	- All options (and string for -s) must come before filenames, else will be
+		interpreted as a filename.
+		= once an arg is interpreted as a file, all following args are
+			interpreted as files

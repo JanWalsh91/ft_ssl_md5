@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:46:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/22 16:43:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 void	ft_putchar(char c);
 void	ft_putstr(char const *s);
 size_t	ft_strlen(const char *s);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

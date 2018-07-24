@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_md5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/03 16:45:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 16:44:41 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/22 16:47:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** Computes and returns the length of the string.
-** Excludes the null terminating character.
-** Unlike the standard library's strlen, it returns 0 if thr string is NULL;
-*/
+#include "ft_ssl.h"
 
-#include "helper_functions.h"
-
-size_t	ft_strlen(const char *s)
+void	ft_md5(char * file)
 {
-	size_t	i;
-
-	i = 0;
-	while (s && s[i])
-		++i;
-	return (i);
+	
 }
