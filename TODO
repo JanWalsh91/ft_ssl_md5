@@ -33,7 +33,13 @@ Must justify:
 ◦ exit
 
 
--> just have a folder with helper functions
+- helper functions: libft style functions
+- common functions: functions shared by all encoders
+	- read from file
+	- read from stdin
+	- handle options
+	- output to stdout (or stderr)
+	- print instructions
 
 - list of commands, store in list
 - call on function pointer in list
