@@ -1,0 +1,110 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_arguments.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/25 17:04:21 by jwalsh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_ssl_core.h"
+#include "ft_ssl_helper_functions.h"
+
+void		handle_arguments(int ac, char **av)
+{
+	printf("handle_arguments\n");
+	int8_t		options;
+	int			i;
+	t_command	command;
+	char		*string;
+
+	options = 0;
+	// get command
+	if ((command = parse_command(av[1])) == CMD_INVALID)
+	{
+		printf("invalid command\n");
+		return ;
+	}
+	printf("command: %d\n", command);
+	if (ac <= 2)
+	{
+		read_from_stdin();	
+		return ;
+	}
+	i = 1;
+	// parse options
+	while (++i < ac)
+	{
+		// TODO: handle illegal options
+		options |= parse_option(av[i]);
+		if ((options | OPTION_INVALID) == options)
+			break ;
+		if ((options | OPTION_S) == options)
+		{
+			// handle -s option
+			// TODO: create task with string
+			if (++i < ac)
+				string = av[i];
+			else
+			{
+				printf("error must provide string after -s option\n");
+				return ;
+			}
+			options -= OPTION_S;
+		}
+	}
+	printf("final options: %d\n", options);
+	printf("current arg: %s\n", av[i]);
+	while (i < ac)
+	{
+		string = av[i++];
+		// create task
+	}
+}
+
+t_command	parse_command(char *arg)
+{
+	printf("parse_command\n");
+	int							i;
+	t_command					cmd;
+	static const char *const	commands[] = {
+		"md5",
+		"sha256"
+	};
+
+	cmd = 0;
+	i = -1;
+	while (++i < 2)
+	{
+		if (!ft_strcmp(arg, commands[i]))
+			return (i);
+		cmd++;
+	}
+	return (CMD_INVALID);
+}
+
+t_option	parse_option(char *arg)
+{
+	printf("parse_option\n");
+	int							i;
+	t_option					opt;
+	static const char *const	options[] = {
+		"-s",
+		"-p",
+		"-q",
+		"-r"
+	};
+
+	opt = 1;
+	i = -1;
+	while (++i < 4)
+	{
+		if (!ft_strcmp(arg, options[i]))
+			return (opt);
+		opt *= 2;
+	}
+	return (OPTION_INVALID);
+}

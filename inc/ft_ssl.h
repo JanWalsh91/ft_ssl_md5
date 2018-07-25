@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 13:41:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 15:44:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/25 15:28:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdio.h>
 # include <unistd.h>
-# include "helper_functions.h"
 
 void	print_usage();
 

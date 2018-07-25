@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 16:45:07 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/22 16:44:41 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/25 15:27:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Unlike the standard library's strlen, it returns 0 if thr string is NULL;
 */
 
-#include "helper_functions.h"
+#include "ft_ssl_helper_functions.h"
 
 size_t	ft_strlen(const char *s)
 {

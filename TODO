@@ -50,6 +50,9 @@ Must justify:
 	- md5
 	- sha256
 	- else : ft_ssl: Error: 'foobar' is an invalid command.
+- if no options or files (if ac =< 2)
+	- try to read form STDIN (and execute task)
+		- if empty, open STDIN
 - options:
 	- -s: interprets next arg as string to hash
 		- print in following format: 
@@ -62,7 +65,8 @@ Must justify:
 		- MD5 (file) = 53d53ea94217b259c11a5a2d104ec58a
 		-> 53d53ea94217b259c11a5a2d104ec58a
 		- overrides -r options
-	- -p: print input string before hash
+	- -p: print input string from STDIN before hash
+		- if none, open STDIN (how to quit, or validate?)
 	- -r: reverse output
 		- any output is reversed as follows:
 			- MD5 ("test") = 098f6bcd4621d373cade4e832627b4f6
@@ -77,3 +81,7 @@ Must justify:
 		interpreted as a filename.
 		= once an arg is interpreted as a file, all following args are
 			interpreted as files
+
+How to generate list of tasks? linked list...
+- encapsulate with linked lists? ... no need.
+- or malloc a list of size ac - 1. Cannot be more than that.

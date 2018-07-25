@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/25 14:55:39 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/25 16:57:24 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRCS_HELPER_FUNCTIONS = ft_putchar.c \
 	ft_strcmp.c \
 	ft_strlen.c
 
-SRCS_CORE = read.c
+SRCS_CORE = handle_arguments.c \
+	read_from_stdin.c \
+	task_manager.c
 
 HEADER_DIR = ./inc
 SRCS_DIR := ./src
@@ -33,8 +35,8 @@ OBJS_DIR := ./obj
 
 HEADER = ft_ssl.h
 
-HEADER_CORE = core.h
-HEADER_HELPER_FUNCTIONS = helper_functions.h
+HEADER_CORE = ft_ssl_core.h
+HEADER_HELPER_FUNCTIONS = ft_ssl_helper_functions.h
 
 OBJS := $(SRCS:.c=.o)
 OBJS_CORE := $(SRCS_CORE:.c=.o)
@@ -57,11 +59,6 @@ SRCS_HELPER_FUNCTIONS := $(addprefix $(SRCS_HELPER_FUNCTIONS_DIR)/, $(SRCS_HELPE
 SRCS_HELPER_FUNCTIONS := $(addprefix $(SRCS_DIR)/, $(SRCS_HELPER_FUNCTIONS))
 SRCS_CORE := $(addprefix $(SRCS_CORE_DIR)/, $(SRCS_CORE))
 SRCS_CORE := $(addprefix $(SRCS_DIR)/, $(SRCS_CORE))
-
-test:
-	@echo $(SRCS_CORE)
-	@echo $(SRCS_DIR)/$(SRCS_CORE_DIR)/%.c
-	@echo $(OBJS_DIR)/%.o
 
 # Colors #
 
