@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_md5.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/26 14:46:39 by jwalsh           ###   ########.fr       */
+/*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/26 15:46:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ssl.h"
-#include "ft_ssl_core.h"
-#include "ft_ssl_helper_functions.h"
+#ifndef FT_MD5_H
+# define FT_MD5_H
 
-int	main(int ac, char **av)
+# include "ft_ssl_core.h"
+# include "ft_ssl_helper_functions.h"
+
+typedef	struct	s_md5_buffers
 {
-	t_task		**tasks;
-	int			i;
+	int		A;
+	int		B;
+	int		C;
+	int		D;
+}				t_md5_buffers;
 
-	if (ac <= 1)
-	{
-		print_usage();
-		return (0);
-	}
-	tasks = handle_arguments(ac, av);
-	if (!tasks)
-	{
-		printf("no tasks found\n");
-		return (0);
-	}
-	print_tasks(tasks);
-	i = 0;
-	while (tasks[i])
-		execute_task(tasks[i++]);
-	return (0);
-}
+void	ft_md5(t_task *task);
+int		md5_f(int x, int y, int z);
+
+
+#endif

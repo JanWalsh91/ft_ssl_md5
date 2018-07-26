@@ -6,12 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/26 13:01:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/26 15:28:14 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 #include "ft_ssl_helper_functions.h"
+#include "ft_md5.h"
 
 t_task		*new_task(t_command cmd, int8_t opts, char *str)
 {
@@ -47,6 +48,17 @@ t_task		**add_task(t_task **tasks, t_task *task)
 	printf("i: %d\n", i);
 	tasks[i] = task;
 	return (tasks);	
+}
+
+void		execute_task(t_task *task)
+{
+	// typedef	void(*task_executor)(t_task *);
+	// (void)task;
+	// task_executor tasks = &ft_md5();
+	
+	ft_md5(task);
+	// (void)tasks;
+	// iterate over command, call on list of function pointer?
 }
 
 void		print_tasks(t_task **tasks)

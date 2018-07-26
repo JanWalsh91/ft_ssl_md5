@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/26 13:04:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/26 13:14:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_task		**handle_arguments(int ac, char **av)
 		read_from_stdin();	
 		return (NULL);
 	}
+	printf("ac: %d\n", ac);
 	if (!(tasks = (t_task**)ft_memalloc(sizeof(t_task**) * (ac + 1))))
 		return (NULL);
 	
