@@ -6,52 +6,61 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/25 17:04:21 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/26 13:04:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 #include "ft_ssl_helper_functions.h"
 
-void		handle_arguments(int ac, char **av)
+t_task		**handle_arguments(int ac, char **av)
 {
 	printf("handle_arguments\n");
 	int8_t		options;
 	int			i;
 	t_command	command;
-	char		*string;
+	t_task		**tasks;
 
 	options = 0;
 	// get command
 	if ((command = parse_command(av[1])) == CMD_INVALID)
 	{
 		printf("invalid command\n");
-		return ;
+		return (NULL);
 	}
 	printf("command: %d\n", command);
 	if (ac <= 2)
 	{
 		read_from_stdin();	
-		return ;
+		return (NULL);
 	}
+	if (!(tasks = (t_task**)ft_memalloc(sizeof(t_task**) * (ac + 1))))
+		return (NULL);
+	
 	i = 1;
 	// parse options
 	while (++i < ac)
 	{
-		// TODO: handle illegal options
+		// TODO: handle illegal options (is arg starts with '-')
 		options |= parse_option(av[i]);
-		if ((options | OPTION_INVALID) == options)
+		if ((options | OPTION_NOT) == options)
 			break ;
+		if ((options | OPTION_INVALID) == options)
+		{
+			printf("illegal option\n");
+			// stop execution, print error
+			return (NULL);
+		}
 		if ((options | OPTION_S) == options)
 		{
 			// handle -s option
 			// TODO: create task with string
 			if (++i < ac)
-				string = av[i];
+				tasks = add_task(tasks, new_task(command, options, av[i]));
 			else
 			{
 				printf("error must provide string after -s option\n");
-				return ;
+				return (NULL);
 			}
 			options -= OPTION_S;
 		}
@@ -59,10 +68,9 @@ void		handle_arguments(int ac, char **av)
 	printf("final options: %d\n", options);
 	printf("current arg: %s\n", av[i]);
 	while (i < ac)
-	{
-		string = av[i++];
-		// create task
-	}
+		tasks = add_task(tasks, new_task(command, options, av[i++]));
+	printf("task[0]: %p\n", tasks[0]);
+	return (tasks);
 }
 
 t_command	parse_command(char *arg)
@@ -98,6 +106,8 @@ t_option	parse_option(char *arg)
 		"-r"
 	};
 
+	if (arg[0] != '-')
+		return (OPTION_NOT);
 	opt = 1;
 	i = -1;
 	while (++i < 4)

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/25 17:05:59 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/26 12:48:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ typedef enum	e_option {
 	OPTION_P = 0b00000010,
 	OPTION_Q = 0b00000100,
 	OPTION_R = 0b00001000,
-	OPTION_INVALID = 0b10000000
-	// OPTION_ILLEGAL or return 0...
+	OPTION_INVALID = 0b10000000,
+	OPTION_NOT = 0b01000000
 }				t_option;
 
 typedef enum	e_command {
@@ -43,7 +43,7 @@ typedef struct	s_task {
 ** Parsing
 */
 
-void		handle_arguments();
+t_task		**handle_arguments();
 t_command	parse_command(char *arg);
 t_option	parse_option(char *arg);
 void		read_from_stdin();
@@ -53,5 +53,7 @@ void		read_from_stdin();
 */
 
 t_task		*new_task(t_command cmd, int8_t opts, char *str);
+t_task		**add_task(t_task **tasks, t_task *task);
+void		print_tasks(t_task **tasks);
 
 #endif

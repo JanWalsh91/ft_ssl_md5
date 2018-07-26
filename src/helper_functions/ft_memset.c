@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl_helper_functions.h                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/26 12:38:58 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/11/03 15:29:40 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/26 12:37:29 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HELPER_FUNCTIONS_H
-# define HELPER_FUNCTIONS_H
+/*
+** ft_memset writes len bytes of value c (converted to unsigned char)
+** to the string b and returns b.
+*/
 
-# include <stdio.h>
-# include <unistd.h>
-# include <stdlib.h>
+#include "ft_ssl_helper_functions.h"
 
-void	*ft_memalloc(size_t size);
-void	*ft_memset(void *b, int c, size_t len);
-void	ft_putchar(char c);
-void	ft_putstr(char const *s);
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t	i;
 
-#endif
+	i = 0;
+	while (i < len)
+		((char *)b)[i++] = (unsigned char)(c);
+	return (b);
+}
