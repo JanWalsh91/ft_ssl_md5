@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/26 15:31:11 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/28 15:01:48 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,14 @@ CFLAGS = -Wall -Werror -Wextra
 SRCS = main.c \
 	print_usage.c
 
-SRCS_HELPER_FUNCTIONS = ft_memalloc.c \
+SRCS_HELPER_FUNCTIONS = ft_bzero.c \
+	ft_memalloc.c \
 	ft_memset.c \
 	ft_putchar.c \
 	ft_putstr.c \
 	ft_strcmp.c \
-	ft_strlen.c
+	ft_strlen.c \
+	hex_dump.c
 
 SRCS_CORE = handle_arguments.c \
 	read_from_stdin.c \
