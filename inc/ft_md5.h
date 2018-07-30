@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/29 15:52:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 11:14:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ uint32_t	rotate_left(uint32_t x, uint32_t n);
 
 
 // void	encode(unsigned char *output, uint32_t *input, unsigned int len);
-// void	decode(uint32_t *output, unsigned char *input, unsigned int len);
+void	decode(uint32_t *output, unsigned char *input, unsigned int len);
 
 // original
 static const uint32_t		g_md5_t[64] = {
@@ -191,10 +191,22 @@ static const uint32_t		g_md5_t[64] = {
 // 	{6, 10, 15, 21}
 // };
 
-static const uint32_t	g_md5_s[16] = {
+static const uint32_t	g_md5_s[64] = {
+	7, 12, 17, 22,
+	7, 12, 17, 22,
+	7, 12, 17, 22,
 	7, 12, 17, 22,
 	5, 9, 14, 20,
+	5, 9, 14, 20,
+	5, 9, 14, 20,
+	5, 9, 14, 20,
 	4, 11, 16, 23,
+	4, 11, 16, 23,
+	4, 11, 16, 23,
+	4, 11, 16, 23,
+	6, 10, 15, 21,
+	6, 10, 15, 21,
+	6, 10, 15, 21,
 	6, 10, 15, 21
 };
 
