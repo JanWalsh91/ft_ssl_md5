@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 12:09:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 14:38:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,41 @@ void	ft_md5(t_task *task)
 	printf("ft_md5\n");
 	(void)task;
 	t_md5_state *state;
-	int			fd;
 
 	// initialize md5 state/context
 	if (!(state = md5_init_state()))
 		return ;
 	
-	// A. read from file
-	if (!task->file)
-		return ;
+	// if OPTION_S: read from string
+	if ((task->opts | OPTION_S) == task->opts)
+		md5_from_string(task, state);
+	else if ((task->opts | OPTION_STDIN) == task->opts)
+		md5_from_stdin(task, state);
+	else if (task->file)
+		md5_from_file(task, state);
+	// else
+		// md5_from_stdin(task, state);
+
+	// if OPTION_P: read from stdin
+	// else read from string
+
+	
+	// TODO: print result
+	// TODO: close, free state
+}
+
+void	md5_from_file(t_task *task, t_md5_state *state)
+{
+	printf("md5_from_file\n");
+	int			fd;
+
 	// TODO: check for opening error
 	fd = open(task->file, O_RDONLY);
-
+	if (fd == -1)
+	{
+		printf("error opening\n");
+		exit(0);
+	}
 	// TODO: use return value to check for errors
 
 	hex_dump("first state", state->state, 16);
@@ -36,9 +59,47 @@ void	ft_md5(t_task *task)
 		md5_update_state(state);
 	md5_update_state(md5_pad(state));
 	hex_dump("final state", state->state, 16);
-	// print result
+	(void)task;
 }
 
+void	md5_from_string(t_task *task, t_md5_state *state)
+{
+	printf("md5_from_string\n");
+	char			*p;
+	size_t			copy_length;
+
+	p = task->str;
+	while (*p)
+	{
+		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p); 
+		ft_memcpy(state->buf, p, copy_length);
+		state->ret = copy_length;
+		p += copy_length;
+		if (state->ret == BUFFER_SIZE)
+			md5_update_state(state);
+		else
+			md5_update_state(md5_pad(state));
+		ft_bzero(state->buf, 64);
+	}
+	hex_dump("final state", state->state, 16);
+}
+
+void	md5_from_stdin(t_task *task, t_md5_state *state)
+{
+	printf("md5_from_stdin\n");
+	while ((state->ret = read(0, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
+	{
+		if (state->buf[state->ret - 1] == 0x0a)
+			state->ret--;
+		md5_update_state(state);
+	}
+	if (state->buf[state->ret - 1] == 0x0a)
+		state->ret--;
+	md5_update_state(md5_pad(state));
+	hex_dump("final state", state->state, 16);
+	(void)task;
+	(void)state;
+}
 
 void	md5_update_state(t_md5_state *state)
 {
@@ -164,14 +225,6 @@ uint32_t	md5_i(uint32_t x, uint32_t y, uint32_t z)
 	return (y ^ (x | ~z));
 }
 
-uint32_t	rotate_left(uint32_t x, uint32_t n)
-{
-	return (((x) << (n)) | ((x) >> (32-(n))));
-	// printf("rotate_left %x by %u = %x\n", x, n, r);
-	// return r;
-}
-
-
 // #define FF(a, b, c, d, x, s, ac) { \
 //  (a) += F ((b), (c), (d)) + (x) + (UINT4)(ac); \
 //  (a) = ROTATE_LEFT ((a), (s)); \
@@ -240,11 +293,11 @@ void	md5_transform(t_md5_state *state)
 		state_copy[3] = state_copy[2];
 		state_copy[2] = state_copy[1];
 		state_copy[1] = state_copy[1] + rotate_left(f, g_md5_s[i]);
-		printf("\tRound %d: \n", i);
-		printf("\t\tA = %u\n", state_copy[0]);
-		printf("\t\tB = %u\n", state_copy[1]);
-		printf("\t\tC = %u\n", state_copy[2]);
-		printf("\t\tD = %u\n", state_copy[3]);
+		// printf("\tRound %d: \n", i);
+		// printf("\t\tA = %u\n", state_copy[0]);
+		// printf("\t\tB = %u\n", state_copy[1]);
+		// printf("\t\tC = %u\n", state_copy[2]);
+		// printf("\t\tD = %u\n", state_copy[3]);
 		i++;
 	}
 	state->state[0] += state_copy[0];

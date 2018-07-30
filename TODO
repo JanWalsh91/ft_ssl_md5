@@ -1,23 +1,13 @@
 - read file and handle errors
 - read from std::in
 
-- implement md5
-	- processes a variable-length message into a fixed-lenght output of 128 bits
-	- process; 
-		1. break up message into chunks of 512bit blocks.
-		2. add padding so that it is divisible by 512.
-			- bit of 1, followed by 0's. 
-			- last 64 bits filled with lenght of original message modulo 2ˆ64
-		3. each  512bit block modifies a 128bit state divided into 4 parts
-			A, B, C, and D. 
-			- A, B, C, D are initilized at
-				- A = 0x67452301
-				- B = 0xefcdab89
-				- C = 0x98badcfe
-				- D = 0x10325476
+
 
 
 - implement sha256
+- implement md5
+	- fix reading from stdin
+
 
 
 

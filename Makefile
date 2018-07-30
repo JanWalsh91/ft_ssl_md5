@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/30 12:07:38 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/30 14:37:59 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,14 @@ SRCS_HELPER_FUNCTIONS = ft_bzero.c \
 	ft_strlen.c \
 	hex_dump.c
 
-SRCS_CORE = handle_arguments.c \
+SRCS_CORE = bitwise_operations.c \
+	handle_arguments.c \
 	read_from_stdin.c \
 	task_manager.c
 
 SRCS_MD5 = ft_md5.c
+
+SRCS_SHA256 = ft_sha256.c
 
 HEADER_DIR = ./inc
 SRCS_DIR := ./src
@@ -45,26 +48,31 @@ HEADER = ft_ssl.h
 HEADER_CORE = ft_ssl_core.h
 HEADER_HELPER_FUNCTIONS = ft_ssl_helper_functions.h
 HEADER_MD5 = ft_md5.h
+HEADER_SHA256 = ft_sha256.h
 
 OBJS := $(SRCS:.c=.o)
 OBJS_CORE := $(SRCS_CORE:.c=.o)
 OBJS_HELPER_FUNCTIONS := $(SRCS_HELPER_FUNCTIONS:.c=.o)
 OBJS_MD5 := $(SRCS_MD5:.c=.o)
+OBJS_SHA256 := $(SRCS_SHA256:.c=.o)
 
 SRCS_CORE_DIR := core
 SRCS_HELPER_FUNCTIONS_DIR := helper_functions
 SRCS_MD5_DIR := md5
+SRCS_SHA256_DIR := sha256
 
 HEADER := $(addprefix $(HEADER_DIR)/, $(HEADER))
 
 HEADER_CORE := $(addprefix $(HEADER_DIR)/, $(HEADER_CORE))
 HEADER_HELPER_FUNCTIONS := $(addprefix $(HEADER_DIR)/, $(HEADER_HELPER_FUNCTIONS))
 HEADER_MD5 := $(addprefix $(HEADER_DIR)/, $(HEADER_MD5))
+HEADER_SHA256 := $(addprefix $(HEADER_DIR)/, $(HEADER_SHA256))
 
 OBJS := $(addprefix $(OBJS_DIR)/, $(OBJS))
 OBJS_CORE := $(addprefix $(OBJS_DIR)/, $(OBJS_CORE))
 OBJS_HELPER_FUNCTIONS := $(addprefix $(OBJS_DIR)/, $(OBJS_HELPER_FUNCTIONS))
 OBJS_MD5 := $(addprefix $(OBJS_DIR)/, $(OBJS_MD5))
+OBJS_SHA256 := $(addprefix $(OBJS_DIR)/, $(OBJS_SHA256))
 
 SRCS := $(addprefix $(SRCS_DIR)/, $(SRCS))
 SRCS_HELPER_FUNCTIONS := $(addprefix $(SRCS_HELPER_FUNCTIONS_DIR)/, $(SRCS_HELPER_FUNCTIONS))
@@ -73,6 +81,8 @@ SRCS_CORE := $(addprefix $(SRCS_CORE_DIR)/, $(SRCS_CORE))
 SRCS_CORE := $(addprefix $(SRCS_DIR)/, $(SRCS_CORE))
 SRC_MD5 := $(addprefix $(SRC_MD5_DIR)/, $(SRC_MD5))
 SRC_MD5 := $(addprefix $(SRCS_DIR)/, $(SRC_MD5))
+SRC_SHA256 := $(addprefix $(SRC_SHA256_DIR)/, $(SRC_SHA256))
+SRC_SHA256 := $(addprefix $(SRCS_DIR)/, $(SRC_SHA256))
 
 # Colors #
 
@@ -97,7 +107,7 @@ debug:
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(OBJS_HELPER_FUNCTIONS) $(OBJS_CORE) $(OBJS_MD5)
+$(NAME): $(OBJS) $(OBJS_HELPER_FUNCTIONS) $(OBJS_CORE) $(OBJS_MD5) $(OBJS_SHA256)
 	@$(CXX) $(CFLAGS) -o $@ $^
 	@echo "$(C_CYAN)$(NAME) compiled$(C_NONE)"
 
@@ -117,6 +127,11 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/$(SRCS_CORE_DIR)/%.c $(HEADER_CORE)
 	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c -o $@ $<
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/$(SRCS_MD5_DIR)/%.c $(HEADER_MD5)
+	@echo "$(C_CYAN)Compiling $<$(C_NONE)"
+	@/bin/mkdir -p $(OBJS_DIR)
+	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c -o $@ $<
+
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/$(SRCS_SHA256_DIR)/%.c $(HEADER_SHA256)
 	@echo "$(C_CYAN)Compiling $<$(C_NONE)"
 	@/bin/mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c -o $@ $<

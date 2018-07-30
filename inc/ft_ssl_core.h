@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/26 13:19:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 14:42:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef enum	e_option {
 	OPTION_P = 0b00000010,
 	OPTION_Q = 0b00000100,
 	OPTION_R = 0b00001000,
+	OPTION_STDIN = 0b00010000,
 	OPTION_INVALID = 0b10000000,
 	OPTION_NOT = 0b01000000
 }				t_option;
@@ -37,6 +38,7 @@ typedef struct	s_task {
 	int8_t		opts;
 	char		*str;
 	char		*file;
+	char		*digest; // result
 }				t_task;
 
 /*
@@ -56,5 +58,12 @@ t_task		*new_task(t_command cmd, int8_t opts, char *str);
 t_task		**add_task(t_task **tasks, t_task *task);
 void		print_tasks(t_task **tasks);
 void		execute_task(t_task *task);
+
+/*
+** Bitwise operations
+*/
+
+uint32_t	rotate_left(uint32_t x, uint32_t n);
+uint32_t	rotate_right(uint32_t x, uint32_t n);
 
 #endif
