@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 11:51:44 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 12:09:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	state->length += state->ret;
 	// printf("length: %llu\n", state->length);
 	// printf("ret: %d\n", state->ret);
-	// hex_dump("buffer", state->buf, state->ret);
+	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	// pad state->buf with 1 and 0's until length(state->buf) % (512/8) == 448/8
 	state->buf[state->ret] = 0x80;
-	// hex_dump("buffer", state->buf, state->ret + 1);
+	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	if ((state->ret + 1) % 64 < 56)
 	{
 		printf("length less than 56\n");
@@ -73,7 +73,14 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	{
 		printf("length more than 56\n");
 		tmp = 64 + 56 - (state->length % 64);
-		ft_memset(&state->buf[state->ret], 0, tmp);
+		ft_memset(&state->buf[state->ret + 1], 0, tmp);
+		md5_transform(state);
+		hex_dump("buffer before cpy", state->buf, BUFFER_SIZE * 2);
+		ft_memcpy(state->buf, state->buf + 64, 64);
+		hex_dump("buffer after cpy", state->buf, BUFFER_SIZE * 2);
+		ft_bzero(state->buf + 64, 64);
+		hex_dump("buffer after bzero", state->buf, BUFFER_SIZE * 2);
+		tmp -= 64;
 	}
 	// int i = 0;
 

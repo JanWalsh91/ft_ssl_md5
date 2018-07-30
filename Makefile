@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/28 15:01:48 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/30 12:07:38 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS = main.c \
 
 SRCS_HELPER_FUNCTIONS = ft_bzero.c \
 	ft_memalloc.c \
+	ft_memcpy.c \
 	ft_memset.c \
 	ft_putchar.c \
 	ft_putstr.c \

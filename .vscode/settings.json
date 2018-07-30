@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"ft_ssl.h": "c"
+		"ft_ssl.h": "c",
+		"ft_ssl_helper_functions.h": "c"
 	}
 }
