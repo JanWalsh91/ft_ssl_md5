@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 11:14:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 11:48:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 typedef	struct	s_md5_state
 {
 	uint32_t		state[4];
-	unsigned char	buf[BUFFER_SIZE * 2 + 1];
+	unsigned char	buf[BUFFER_SIZE * 2];
 	int				ret;
 	uint64_t		length;
 	// or uint32_t length[2];

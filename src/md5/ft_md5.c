@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 11:19:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/30 11:51:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_md5(t_task *task)
 	// TODO: use return value to check for errors
 
 	hex_dump("first state", state->state, 16);
-	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE - 1)) == BUFFER_SIZE - 1)
+	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 		md5_update_state(state);
 	md5_update_state(md5_pad(state));
 	hex_dump("final state", state->state, 16);
@@ -44,9 +44,9 @@ void	md5_update_state(t_md5_state *state)
 {
 	printf("md5_update_state\n");
 	state->length += state->ret;
-	(void)state;
-
 	md5_transform(state);
+	// empty buffer
+	ft_bzero(state->buf, 64 * 2);
 }
 
 t_md5_state	*md5_pad(t_md5_state *state)
@@ -121,13 +121,15 @@ t_md5_state		*md5_init_state(void)
 	state->state[1] = 0xefcdab89;
 	state->state[2] = 0x98badcfe;
 	state->state[3] = 0x10325476;
-	ft_bzero(state->buf, BUFFER_SIZE);
+	// ft_bzero(state->buf, BUFFER_SIZE);
 	hex_dump("init state", state->state, 16);
+	hex_dump("buf", state->buf, 64 * 2);
 	printf("md5_init_state END:\n");
-	printf("\tA = %u\n", state->state[0]);
-	printf("\tB = %u\n", state->state[1]);
-	printf("\tC = %u\n", state->state[2]);
-	printf("\tD = %u\n", state->state[3]);
+	// printf("\tA = %u\n", state->state[0]);
+	// printf("\tB = %u\n", state->state[1]);
+	// printf("\tC = %u\n", state->state[2]);
+	// printf("\tD = %u\n", state->state[3]);
+
 	return (state);
 }
 
@@ -186,32 +188,21 @@ uint32_t	rotate_left(uint32_t x, uint32_t n)
 
 void	md5_transform(t_md5_state *state)
 {
-	printf("=====md5_transform======\n");
+	static int count = 0;
+	printf("===== md5_transform: section %d ======\n", count);
 	uint32_t	state_copy[4];
-	// uint32_t	x[16];
 	uint32_t	i;
 	uint32_t	f;
 	uint32_t	g;
+	uint32_t	x[16];
 
 	state_copy[0] = state->state[0];
 	state_copy[1] = state->state[1];
 	state_copy[2] = state->state[2];
 	state_copy[3] = state->state[3];
-	printf("initial state_copy:\n");
-	printf("\tA = %u\n", state_copy[0]);
-	printf("\tB = %u\n", state_copy[1]);
-	printf("\tC = %u\n", state_copy[2]);
-	printf("\tD = %u\n", state_copy[3]);
-	// for (int y = 0; y < 16; y++)
-	// {
-	// 	printf("[%d]: %d\n", y, *(((int*)(state->buf)) + y) );
-	// }
-
-	uint32_t x[16];
-	hex_dump("state->buf", &state->buf, 4);
 	decode(x, state->buf, 64);
-	hex_dump("x", x, 4);
-	// return ;
+	hex_dump("state->buf", state->buf, 64);
+	hex_dump("x", x, 64);
 	i = 0;
 	while (i < 64)
 	{
@@ -237,43 +228,28 @@ void	md5_transform(t_md5_state *state)
 		}
 		else
 			return ;
-			// update A every time
 		f = f + state_copy[0] + g_md5_t[i] + x[g];
-		// f = f + state_copy[0] + g_md5_t[i] + state->buf[g];
-		// uint32_t	tmp = state_copy[3]
-			// 'rotate' state to update next one
 		state_copy[0] = state_copy[3];
 		state_copy[3] = state_copy[2];
 		state_copy[2] = state_copy[1];
-
-		// hex_dump("f before rotate", &f, 4);
-		// printf("f before rotate: %u\n", f);
-		// TODO: i can go up to 64, but g_md5_s does not!
 		state_copy[1] = state_copy[1] + rotate_left(f, g_md5_s[i]);
-		// f = rotate_left(f, g_md5_s[i]);
-		// printf("rotate by %d\n", g_md5_s[i]);
-		// printf("f after rotate: %u\n", f);
-		// hex_dump("f after rotate", &f, 4);
-		// return ;
-		// hex_dump("state", state_copy, 16);
-		// printf("sizeof(state_copy): %lu\n", sizeof(state_copy));
-		printf("Round %d: \n", i);
-		printf("\tA = %u\n", state_copy[0]);
-		printf("\tB = %u\n", state_copy[1]);
-		printf("\tC = %u\n", state_copy[2]);
-		printf("\tD = %u\n", state_copy[3]);
-		// printf("\tA = %x\t", state_copy[0]);
-		// printf("\tB = %x\n", state_copy[1]);
-		// printf("\tC = %x\t", state_copy[2]);
-		// printf("\tD = %x\n", state_copy[3]);
+		printf("\tRound %d: \n", i);
+		printf("\t\tA = %u\n", state_copy[0]);
+		printf("\t\tB = %u\n", state_copy[1]);
+		printf("\t\tC = %u\n", state_copy[2]);
+		printf("\t\tD = %u\n", state_copy[3]);
 		i++;
-		// if (i > 4)
-		// 	return ;
 	}
 	state->state[0] += state_copy[0];
 	state->state[1] += state_copy[1];
 	state->state[2] += state_copy[2];
 	state->state[3] += state_copy[3];
+	printf("Section %d finished\n", count);
+	printf("\tA = %u\n", state->state[0]);
+	printf("\tB = %u\n", state->state[1]);
+	printf("\tC = %u\n", state->state[2]);
+	printf("\tD = %u\n", state->state[3]);
+	count++;
 }
 
 /* Encodes input (uint32_t) into output (unsigned char). Assumes len is
@@ -310,7 +286,6 @@ void	decode(uint32_t *output, unsigned char *input, unsigned int len)
 	j = 0;
 	while (j < len)
 	{
-		printf("check\n");
  		output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j + 1]) << 8) |
   			(((uint32_t)input[j + 2]) << 16) | (((uint32_t)input[j + 3]) << 24);
 		++i;
