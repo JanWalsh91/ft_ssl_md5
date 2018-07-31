@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 12:19:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 14:35:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	ft_sha256(t_task *task)
 		return ;
 	
 	// if OPTION_S: read from string
-	// if ((task->opts | OPTION_S) == task->opts)
-	// 	sha256_from_string(task, state);
+	if ((task->opts | OPTION_S) == task->opts)
+		sha256_from_string(task, state);
 	// else if ((task->opts | OPTION_STDIN) == task->opts)
 	// 	sha256_from_stdin(task, state);
 	// else if (task->file)
@@ -33,6 +33,12 @@ void	ft_sha256(t_task *task)
 	else
 		printf("no file\n");
 	
+	// Convert endianness
+	uint32_t state_copy[8];
+	byte_swap(state_copy, state->state, 4, 8);
+	ft_memcpy(state->state, state_copy, 4 * 8);
+	task->digest = ft_bytetohex(state->state, 32);
+
 	// else
 		// sha256_from_stdin(task, state);
 
@@ -47,12 +53,11 @@ void	ft_sha256(t_task *task)
 t_sha256_state		*sha256_init_state(void)
 {
 	printf("sha256_init_state\n");
-	t_sha256_state *state;
+	t_sha256_state	*state;
 
 	if (!(state = (t_sha256_state *)ft_memalloc(sizeof(t_sha256_state))))
 		return (NULL);
 		
-	// original
 	state->state[0] = 0x6a09e667;
 	state->state[1] = 0xbb67ae85;
 	state->state[2] = 0x3c6ef372;
@@ -61,19 +66,9 @@ t_sha256_state		*sha256_init_state(void)
 	state->state[5] = 0x9b05688c;
 	state->state[6] = 0x1f83d9ab;
 	state->state[7] = 0x5be0cd19;
-	// // switch endian
-	// state->state[0] = 0x67e6096a;
-	// state->state[1] = 0x85ae67bb;
-	// state->state[2] = 0x72f36e3c;
-	// state->state[3] = 0x3af54fa5;
-	// state->state[4] = 0x7f520e51;
-	// state->state[5] = 0x8c68059b;
-	// state->state[6] = 0xabd9831f;
-	// state->state[7] = 0x19cde05b;
-	// ft_bzero(state->buf, BUFFER_SIZE);
-	hex_dump("init state", state->state, 16);
-	hex_dump("buf", state->buf, 64 * 2);
-	printf("sha256_init_state END:\n");
+	// hex_dump("init state", state->state, 16);
+	// hex_dump("buf", state->buf, 64 * 2);
+	// printf("sha256_init_state END:\n");
 	// printf("\tA = %u\n", state->state[0]);
 	// printf("\tB = %u\n", state->state[1]);
 	// printf("\tC = %u\n", state->state[2]);
@@ -103,21 +98,28 @@ void	sha256_from_file(t_task *task, t_sha256_state *state)
 
 
 	hex_dump("final state", state->state, 64);
+}
 
-	// char hash[32];
+void	sha256_from_string(t_task *task, t_sha256_state *state)
+{
+	printf("sha256_from_string\n");
+	char			*p;
+	size_t			copy_length;
 
-	// for (int i = 0; i < 4; ++i) {
-	// 	hash[i]      = (state->state[0] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 4]  = (state->state[1] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 8]  = (state->state[2] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 12] = (state->state[3] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 16] = (state->state[4] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 20] = (state->state[5] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 24] = (state->state[6] >> (24 - i * 8)) & 0x000000ff;
-	// 	hash[i + 28] = (state->state[7] >> (24 - i * 8)) & 0x000000ff;
-	// }
-
-	// hex_dump("final hash", hash, 32);
+	p = task->str;
+	while (*p)
+	{
+		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p); 
+		ft_memcpy(state->buf, p, copy_length);
+		state->ret = copy_length;
+		p += copy_length;
+		if (state->ret == BUFFER_SIZE)
+			sha256_update_state(state);
+		else
+			sha256_update_state(sha256_pad(state));
+		ft_bzero(state->buf, 64);
+	}
+	// hex_dump("final state", state->state, 16);
 }
 
 t_sha256_state	*sha256_pad(t_sha256_state *state)

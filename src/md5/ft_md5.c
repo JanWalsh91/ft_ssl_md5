@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 13:24:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 14:51:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,8 @@ void	md5_from_stdin(t_task *task, t_md5_state *state)
 	printf("md5_from_stdin\n");
 	while ((state->ret = read(0, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 	{
-		if (state->buf[state->ret - 1] == 0x0a)
-			state->ret--;
 		md5_update_state(state);
 	}
-	if (state->buf[state->ret - 1] == 0x0a)
-		state->ret--;
 	md5_update_state(md5_pad(state));
 	// hex_dump("final state", state->state, 16);
 	(void)task;
