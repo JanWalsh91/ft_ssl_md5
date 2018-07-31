@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 12:07:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:12:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 
+char	*ft_bytetohex(void *addr, size_t len);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memalloc(size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);

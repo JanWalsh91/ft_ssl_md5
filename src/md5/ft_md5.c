@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 12:07:13 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:24:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_md5(t_task *task)
 		md5_from_file(task, state);
 	// else
 		// md5_from_stdin(task, state);
-
+	task->digest = ft_bytetohex(state->state, 16);
 	// if OPTION_P: read from stdin
 	// else read from string
 
@@ -54,11 +54,11 @@ void	md5_from_file(t_task *task, t_md5_state *state)
 	}
 	// TODO: use return value to check for errors
 
-	hex_dump("first state", state->state, 16);
+	// hex_dump("first state", state->state, 16);
 	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 		md5_update_state(state);
 	md5_update_state(md5_pad(state));
-	hex_dump("final state", state->state, 16);
+	// hex_dump("final state", state->state, 16);
 	(void)task;
 }
 
@@ -81,7 +81,7 @@ void	md5_from_string(t_task *task, t_md5_state *state)
 			md5_update_state(md5_pad(state));
 		ft_bzero(state->buf, 64);
 	}
-	hex_dump("final state", state->state, 16);
+	// hex_dump("final state", state->state, 16);
 }
 
 void	md5_from_stdin(t_task *task, t_md5_state *state)
@@ -96,9 +96,8 @@ void	md5_from_stdin(t_task *task, t_md5_state *state)
 	if (state->buf[state->ret - 1] == 0x0a)
 		state->ret--;
 	md5_update_state(md5_pad(state));
-	hex_dump("final state", state->state, 16);
+	// hex_dump("final state", state->state, 16);
 	(void)task;
-	(void)state;
 }
 
 void	md5_update_state(t_md5_state *state)
@@ -116,14 +115,14 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	// uint8_t		*p;
 
 	printf("md5_pad\n");
-	hex_dump("buffer before padding", state->buf, 64);
+	// hex_dump("buffer before padding", state->buf, 64);
 	state->length += state->ret;
 	// printf("length: %llu\n", state->length);
 	// printf("ret: %d\n", state->ret);
-	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
+	// hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	// pad state->buf with 1 and 0's until length(state->buf) % (512/8) == 448/8
 	state->buf[state->ret] = 0x80;
-	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
+	// hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	if ((state->ret + 1) % 64 < 56)
 	{
 		printf("length less than 56\n");
@@ -136,11 +135,11 @@ t_md5_state	*md5_pad(t_md5_state *state)
 		tmp = 64 + 56 - (state->length % 64);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
 		md5_transform(state);
-		hex_dump("buffer before cpy", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer before cpy", state->buf, BUFFER_SIZE * 2);
 		ft_memcpy(state->buf, state->buf + 64, 64);
-		hex_dump("buffer after cpy", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer after cpy", state->buf, BUFFER_SIZE * 2);
 		ft_bzero(state->buf + 64, 64);
-		hex_dump("buffer after bzero", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer after bzero", state->buf, BUFFER_SIZE * 2);
 		tmp -= 64;
 	}
 	// int i = 0;
@@ -148,7 +147,7 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	// then add total length of message (before padding) as unint64_t
 	uint64_t length = state->length * 8;
 	
-	hex_dump("length", &length, 8);
+	// hex_dump("length", &length, 8);
 
 
 	// ============= Add length method 1 (works) ========== //
@@ -170,13 +169,16 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	// 	state->buf[i] = (uint8_t) length;
 	// 	length >>= 8;
 	// }
+	
+	// ft_memcpy(state->buf + state->ret + tmp, &length, 8);
 
-	printf("length: %llu\n", length);
+	// printf("length: %llu\n", length);
 
-	hex_dump("state->state[0]", &state->state[0], 4);
+	// hex_dump("state->state[0]", &state->state[0], 4);
 	// printf("final size: %lu\n", state->ret + tmp + 8);
 	state->ret = 0;
-	hex_dump("buffer after padding", state->buf, 64);
+	// hex_dump("buffer after padding", state->buf, 64);
+	// exit(0);
 	return (state);
 }
 
@@ -197,9 +199,9 @@ t_md5_state		*md5_init_state(void)
 	state->state[2] = 0x98badcfe;
 	state->state[3] = 0x10325476;
 	// ft_bzero(state->buf, BUFFER_SIZE);
-	hex_dump("init state", state->state, 16);
-	hex_dump("buf", state->buf, 64 * 2);
-	printf("md5_init_state END:\n");
+	// hex_dump("init state", state->state, 16);
+	// hex_dump("buf", state->buf, 64 * 2);
+	// printf("md5_init_state END:\n");
 	// printf("\tA = %u\n", state->state[0]);
 	// printf("\tB = %u\n", state->state[1]);
 	// printf("\tC = %u\n", state->state[2]);
@@ -232,27 +234,6 @@ uint32_t	md5_i(uint32_t x, uint32_t y, uint32_t z)
 	return (y ^ (x | ~z));
 }
 
-// #define FF(a, b, c, d, x, s, ac) { \
-//  (a) += F ((b), (c), (d)) + (x) + (UINT4)(ac); \
-//  (a) = ROTATE_LEFT ((a), (s)); \
-//  (a) += (b); \
-//   }
-// #define GG(a, b, c, d, x, s, ac) { \
-//  (a) += G ((b), (c), (d)) + (x) + (UINT4)(ac); \
-//  (a) = ROTATE_LEFT ((a), (s)); \
-//  (a) += (b); \
-//   }
-// #define HH(a, b, c, d, x, s, ac) { \
-//  (a) += H ((b), (c), (d)) + (x) + (UINT4)(ac); \
-//  (a) = ROTATE_LEFT ((a), (s)); \
-//  (a) += (b); \
-//   }
-// #define II(a, b, c, d, x, s, ac) { \
-//  (a) += I ((b), (c), (d)) + (x) + (UINT4)(ac); \
-//  (a) = ROTATE_LEFT ((a), (s)); \
-//  (a) += (b); \
-//   }
-
 void	md5_transform(t_md5_state *state)
 {
 	static int count = 0;
@@ -267,10 +248,14 @@ void	md5_transform(t_md5_state *state)
 	state_copy[1] = state->state[1];
 	state_copy[2] = state->state[2];
 	state_copy[3] = state->state[3];
-	decode(x, state->buf, 64);
-	// hex_dump("state->buf", state->buf, 64);
-	// hex_dump("x (decode)", x, 64);
 	
+	// TODO: why does a memcpy not work? hex_dump produces same result...
+	// hex_dump("state->buf", state->buf, 64 * 2);
+	decode(x, state->buf, 64);
+	// hex_dump("x (decode)", x, 64 * 2);
+	
+	// ft_memcpy(x, state->buf, 8);
+	// hex_dump("x (mempcpy)", x, 64 * 2);
 	// byte_swap((void*)x, (void *)state->buf, sizeof(*state->buf), BUFFER_SIZE / 4);
 	// hex_dump("x (byte_swap)", x, 64);
 
@@ -316,11 +301,11 @@ void	md5_transform(t_md5_state *state)
 	state->state[1] += state_copy[1];
 	state->state[2] += state_copy[2];
 	state->state[3] += state_copy[3];
-	printf("Section %d finished\n", count);
-	printf("\tA = %u\n", state->state[0]);
-	printf("\tB = %u\n", state->state[1]);
-	printf("\tC = %u\n", state->state[2]);
-	printf("\tD = %u\n", state->state[3]);
+	// printf("Section %d finished\n", count);
+	// printf("\tA = %u\n", state->state[0]);
+	// printf("\tB = %u\n", state->state[1]);
+	// printf("\tC = %u\n", state->state[2]);
+	// printf("\tD = %u\n", state->state[3]);
 	count++;
 }
 
@@ -360,6 +345,7 @@ void	decode(uint32_t *output, unsigned char *input, unsigned int len)
 	{
  		output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j + 1]) << 8) |
   			(((uint32_t)input[j + 2]) << 16) | (((uint32_t)input[j + 3]) << 24);
+		// printf("\toutput[%u] = %x\n", i, *(output + i));
 		++i;
 		j += 4;
 	}

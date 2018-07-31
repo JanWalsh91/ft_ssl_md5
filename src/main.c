@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 10:33:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:22:01 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ int	main(int ac, char **av)
 		printf("no tasks found\n");
 		return (0);
 	}
-	print_tasks(tasks);
-	i = 0;
-	while (tasks[i])
-		execute_task(tasks[i++]);
+	// print_tasks(tasks);
+	i = -1;
+	while (tasks[++i])
+	{
+		execute_task(tasks[i]);
+		print_task_result(tasks[i]);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 13:07:10 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:22:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_task		**handle_arguments(int ac, char **av)
 		printf("invalid command\n");
 		return (NULL);
 	}
-	printf("command: %d\n", command);
-	printf("ac: %d\n", ac);
+	// printf("command: %d\n", command);
+	// printf("ac: %d\n", ac);
 	if (!(tasks = (t_task**)ft_memalloc(sizeof(t_task**) * (ac + 1))))
 		return (NULL);
 	if (ac <= 2)
@@ -68,17 +68,17 @@ t_task		**handle_arguments(int ac, char **av)
 			options -= OPTION_S;
 		}
 	}
-	printf("final options: %d\n", options);
-	printf("current arg: %s\n", av[i]);
+	// printf("final options: %d\n", options);
+	// printf("current arg: %s\n", av[i]);
 	while (i < ac)
 		tasks = add_task(tasks, new_task(command, options, av[i++]));
-	printf("task[0]: %p\n", tasks[0]);
+	// printf("task[0]: %p\n", tasks[0]);
 	return (tasks);
 }
 
 t_command	parse_command(char *arg)
 {
-	printf("parse_command\n");
+	// printf("parse_command\n");
 	int							i;
 	t_command					cmd;
 	static const char *const	commands[] = {
@@ -99,7 +99,7 @@ t_command	parse_command(char *arg)
 
 t_option	parse_option(char *arg)
 {
-	printf("parse_option\n");
+	// printf("parse_option\n");
 	int							i;
 	t_option					opt;
 	static const char *const	options[] = {

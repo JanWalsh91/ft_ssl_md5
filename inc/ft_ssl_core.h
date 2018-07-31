@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 11:56:48 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:18:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_task		*new_task(t_command cmd, int8_t opts, char *str);
 t_task		**add_task(t_task **tasks, t_task *task);
 void		print_tasks(t_task **tasks);
 void		execute_task(t_task *task);
+void		print_task_result(t_task *task);
 
 /*
 ** Bitwise operations

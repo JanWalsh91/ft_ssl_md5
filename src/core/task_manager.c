@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 13:29:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 13:22:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 t_task		*new_task(t_command cmd, int8_t opts, char *str)
 {
-	printf("new_task\n");
+	// printf("new_task\n");
 	t_task	*task;
 
 	if (!(task = ft_memalloc(sizeof(t_task))))
@@ -34,19 +34,19 @@ t_task		*new_task(t_command cmd, int8_t opts, char *str)
 		task->str = NULL;
 		task->file = str;
 	}
-	printf("new task: %p\n", task);
+	// printf("new task: %p\n", task);
 	return (task);
 }
 
 t_task		**add_task(t_task **tasks, t_task *task)
 {
-	printf("add_task\n");
+	// printf("add_task\n");
 	int	i;
 
 	i = 0;
 	while (tasks[i])
 		++i;
-	printf("i: %d\n", i);
+	// printf("i: %d\n", i);
 	tasks[i] = task;
 	return (tasks);	
 }
@@ -102,5 +102,31 @@ void		print_tasks(t_task **tasks)
 		printf("\tstr: [%s]\n", tasks[i]->str);
 		printf("\tfile: [%s]\n", tasks[i]->file);
 		++i;
+	}
+}
+
+void		print_task_result(t_task *task)
+{
+	static const char *const	commands[] = {
+		"MD5",
+		"SHA256",
+		"invalid"
+	};
+	
+	if ((task->opts | OPTION_Q) != task->opts)
+	{
+		ft_putstr(commands[task->cmd]);
+		ft_putstr(" (");
+		if ((task->opts | OPTION_S) == task->opts)
+		{
+			ft_putstr("\"");
+			ft_putstr(task->str);
+			ft_putstr("\"");
+		}
+		else
+			ft_putstr(task->file);
+		ft_putstr(") = ");
+		ft_putstr(task->digest);
+		ft_putstr("\n");
 	}
 }
