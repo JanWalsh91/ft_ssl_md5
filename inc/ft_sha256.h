@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 14:36:20 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 16:14:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # include "ft_ssl_core.h"
 # include "ft_ssl_helper_functions.h"
-# include "ft_md5.h"
 
 # define BUFFER_SIZE 64
 

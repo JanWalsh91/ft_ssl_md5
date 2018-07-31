@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 13:22:56 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 16:57:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,23 @@ t_task		*new_task(t_command cmd, int8_t opts, char *str)
 		return (NULL);
 	task->cmd = cmd;
 	task->opts = opts;
+	task->file = NULL;
+	task->str = NULL;
 	if ((task->opts | OPTION_S) == task->opts)
-	{
 		task->str = str;
-		task->file = NULL;
-	}
 	else
-	{
-		task->str = NULL;
 		task->file = str;
+	if ((task->opts | OPTION_INVALID) == task->opts)
+	{
+		ft_strcat(task->error, "illegal option -- ");
+		ft_strcat(task->error, &str[1]);
 	}
+	else if ((task->cmd | CMD_INVALID) == task->cmd)
+	{
+		ft_strcat(task->error, "ft_ssl: Error: '");
+		ft_strcat(task->error, str);
+		ft_strcat(task->error, "' is an invalid command.\n");
+	}	
 	// printf("new task: %p\n", task);
 	return (task);
 }
@@ -71,31 +78,20 @@ void		print_tasks(t_task **tasks)
 {
 	printf("print tasks\n");
 	int	i;
-	static const char *const	commands[] = {
-		"md5",
-		"sha256",
-		"invalid"
-	};
-	static const char *const	options[] = {
-		"-s",
-		"-p",
-		"-q",
-		"-r"
-	};
-	
+
 	i = 0;
 	while (tasks[i])
 	{
 		printf("task: %p\n", tasks[i]);
 		printf("\ttask: %p\n", tasks[i]);
-		printf("\tcommand: %s\n", commands[tasks[i]->cmd]);
+		printf("\tcommand: %s\n", g_commands[tasks[i]->cmd]);
 		printf("\topts: %d\n", tasks[i]->opts);
 		printf("\toptions: ");
 		int y2 = 1;
 		for (int y = 0; y < 4; y++)
 		{
 			if ((tasks[i]->opts | y2) == tasks[i]->opts)
-				printf("%s, ", options[y]);
+				printf("%s, ", g_options[y]);
 			y2 *= 2;
 		}
 		printf("\t\n");
@@ -110,7 +106,7 @@ void		print_task_result(t_task *task)
 	static const char *const	commands[] = {
 		"MD5",
 		"SHA256",
-		"invalid"
+		NULL
 	};
 	
 	if ((task->opts | OPTION_Q) != task->opts)
@@ -126,7 +122,12 @@ void		print_task_result(t_task *task)
 		else
 			ft_putstr(task->file);
 		ft_putstr(") = ");
-		ft_putstr(task->digest);
-		ft_putstr("\n");
 	}
+	ft_putstr(task->digest);
+	ft_putstr("\n");
 }
+
+// t_task	*illegal_option_task(t_task *task)
+// {
+	
+// }

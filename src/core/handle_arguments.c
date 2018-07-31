@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 13:22:35 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 16:45:31 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,18 @@ t_task		**handle_arguments(int ac, char **av)
 	t_task		**tasks;
 
 	options = 0;
-	// get command
-	if ((command = parse_command(av[1])) == CMD_INVALID)
-	{
-		printf("invalid command\n");
-		return (NULL);
-	}
-	// printf("command: %d\n", command);
-	// printf("ac: %d\n", ac);
 	if (!(tasks = (t_task**)ft_memalloc(sizeof(t_task**) * (ac + 1))))
 		return (NULL);
+	// get command
+	if ((command = parse_command(av[1])) == CMD_INVALID)
+		return (add_task(tasks, new_task(command, options, av[1])));
+	// printf("command: %d\n", command);
+	// printf("ac: %d\n", ac);
 	if (ac <= 2)
 	{
 		printf("task: stdin\n");
 		options |= OPTION_STDIN;
-		tasks = add_task(tasks, new_task(command, options, NULL));
-		return (tasks);
+		return (add_task(tasks, new_task(command, options, NULL)));
 	}
 	
 	i = 1;
@@ -49,11 +45,7 @@ t_task		**handle_arguments(int ac, char **av)
 		if ((options | OPTION_NOT) == options)
 			break ;
 		if ((options | OPTION_INVALID) == options)
-		{
-			printf("illegal option\n");
-			// stop execution, print error
-			return (NULL);
-		}
+			return (add_task(tasks, new_task(command, options, av[i])));
 		if ((options | OPTION_S) == options)
 		{
 			// handle -s option
@@ -78,44 +70,27 @@ t_task		**handle_arguments(int ac, char **av)
 
 t_command	parse_command(char *arg)
 {
-	// printf("parse_command\n");
 	int							i;
-	t_command					cmd;
-	static const char *const	commands[] = {
-		"md5",
-		"sha256"
-	};
 
-	cmd = 0;
 	i = -1;
-	while (++i < 2)
-	{
-		if (!ft_strcmp(arg, commands[i]))
+	while (g_commands[++i])
+		if (!ft_strcmp(arg, g_commands[i]))
 			return (i);
-		cmd++;
-	}
 	return (CMD_INVALID);
 }
 
 t_option	parse_option(char *arg)
 {
-	// printf("parse_option\n");
 	int							i;
 	t_option					opt;
-	static const char *const	options[] = {
-		"-s",
-		"-p",
-		"-q",
-		"-r"
-	};
 
 	if (arg[0] != '-')
 		return (OPTION_NOT);
 	opt = 1;
 	i = -1;
-	while (++i < 4)
+	while (g_options[++i])
 	{
-		if (!ft_strcmp(arg, options[i]))
+		if (!ft_strcmp(arg, g_options[i]))
 			return (opt);
 		opt *= 2;
 	}

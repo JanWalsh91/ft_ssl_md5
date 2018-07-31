@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 14:51:45 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 16:10:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,10 @@ void	md5_from_file(t_task *task, t_md5_state *state)
 	fd = open(task->file, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("error opening\n");
-		exit(0);
+		ft_strcat(task->error, task->file);
+		ft_strcat(task->error, ": ");
+		ft_strcat(task->error, strerror(errno));
+		return ;
 	}
 	// TODO: use return value to check for errors
 

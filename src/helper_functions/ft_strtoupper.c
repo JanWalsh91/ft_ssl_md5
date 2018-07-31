@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssl.h                                           :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/07/19 13:41:53 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/25 15:28:12 by jwalsh           ###   ########.fr       */
+/*   Created: 2016/12/30 18:39:37 by jwalsh            #+#    #+#             */
+/*   Updated: 2018/07/31 16:47:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SSL_H
-# define FT_SSL_H
 
-# include <stdio.h>
-# include <unistd.h>
+/*
+** Puts the lowercase chars in a char string to uppercase.
+*/
 
-void	print_usage();
+#include "ft_ssl_helper_functions.h"
 
-#endif
+void	ft_strtoupper(char *s)
+{
+	int	i;
 
-
+	i = -1;
+	while (s && s[++i])
+		ft_islower(s[i]) ? s[i] = ft_toupper(s[i]) : 0;
+}

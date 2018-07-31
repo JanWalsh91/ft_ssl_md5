@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/31 13:12:58 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/07/31 16:49:34 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,22 +17,27 @@ CFLAGS = -Wall -Werror -Wextra
 
 # Sources #
 
-SRCS = main.c \
-	print_usage.c
-
+SRCS = main.c
+	
 SRCS_HELPER_FUNCTIONS = ft_bytetohex.c \
 	ft_bzero.c \
+	ft_islower.c \
 	ft_memalloc.c \
 	ft_memcpy.c \
 	ft_memset.c \
 	ft_putchar.c \
 	ft_putstr.c \
+	ft_strcat.c \
 	ft_strcmp.c \
+	ft_strcpy.c \
 	ft_strlen.c \
+	ft_strtoupper.c \
+	ft_toupper.c \
 	hex_dump.c
 
 SRCS_CORE = bitwise_operations.c \
 	handle_arguments.c \
+	print_usage.c \
 	read_from_stdin.c \
 	task_manager.c
 
@@ -43,8 +48,6 @@ SRCS_SHA256 = ft_sha256.c
 HEADER_DIR = ./inc
 SRCS_DIR := ./src
 OBJS_DIR := ./obj
-
-HEADER = ft_ssl.h
 
 HEADER_CORE = ft_ssl_core.h
 HEADER_HELPER_FUNCTIONS = ft_ssl_helper_functions.h
@@ -61,8 +64,6 @@ SRCS_CORE_DIR := core
 SRCS_HELPER_FUNCTIONS_DIR := helper_functions
 SRCS_MD5_DIR := md5
 SRCS_SHA256_DIR := sha256
-
-HEADER := $(addprefix $(HEADER_DIR)/, $(HEADER))
 
 HEADER_CORE := $(addprefix $(HEADER_DIR)/, $(HEADER_CORE))
 HEADER_HELPER_FUNCTIONS := $(addprefix $(HEADER_DIR)/, $(HEADER_HELPER_FUNCTIONS))
@@ -112,7 +113,7 @@ $(NAME): $(OBJS) $(OBJS_HELPER_FUNCTIONS) $(OBJS_CORE) $(OBJS_MD5) $(OBJS_SHA256
 	@$(CXX) $(CFLAGS) -o $@ $^
 	@echo "$(C_CYAN)$(NAME) compiled$(C_NONE)"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER_CORE) $(HEADER_HELPER_FUNCTIONS)
 	@echo "$(C_CYAN)Compiling $<$(C_NONE)"
 	@/bin/mkdir -p $(OBJS_DIR)
 	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -c -o $@ $<

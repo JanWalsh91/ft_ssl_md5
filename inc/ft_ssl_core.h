@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 13:18:25 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 16:53:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdio.h> ///////////
 # include <stdlib.h>
 # include <stdint.h>
+# include <errno.h>
+# include <string.h>
 
 typedef enum	e_option {
 	OPTION_S = 0b00000001,
@@ -39,7 +41,10 @@ typedef struct	s_task {
 	char		*str;
 	char		*file;
 	char		*digest; // result
+	char		error[512];
 }				t_task;
+
+void		print_usage();
 
 /*
 ** Parsing
@@ -67,5 +72,24 @@ void		print_task_result(t_task *task);
 uint32_t	rotate_left(uint32_t x, uint32_t n);
 uint32_t	rotate_right(uint32_t x, uint32_t n);
 void    	byte_swap(void *output, void *input, size_t batch_size, size_t len);
+
+/*
+** Globals: commands and options
+*/
+
+static const char *const	g_commands[] = {
+	"md5",
+	"sha256",
+	NULL
+};
+
+static const char *const	g_options[] = {
+	"-s",
+	"-p",
+	"-q",
+	"-r",
+	NULL
+};
+
 
 #endif
