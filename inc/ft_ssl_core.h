@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 14:42:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 11:56:48 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,6 @@ void		execute_task(t_task *task);
 
 uint32_t	rotate_left(uint32_t x, uint32_t n);
 uint32_t	rotate_right(uint32_t x, uint32_t n);
+void    	byte_swap(void *output, void *input, size_t batch_size, size_t len);
 
 #endif

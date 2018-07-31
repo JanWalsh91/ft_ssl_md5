@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 16:13:51 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 12:19:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,25 @@ t_sha256_state		*sha256_init_state(void)
 
 	if (!(state = (t_sha256_state *)ft_memalloc(sizeof(t_sha256_state))))
 		return (NULL);
-	// state->state[0] = 0x01234567;
-	// state->state[1] = 0x89abcdef;
-	// state->state[2] = 0xfedcba98;
-	// state->state[3] = 0x76543210;
-	// // original
-	// state->state[0] = 0x6a09e667;
-	// state->state[1] = 0xbb67ae85;
-	// state->state[2] = 0x3c6ef372;
-	// state->state[3] = 0xa54ff53a;
-	// state->state[4] = 0x510e527f;
-	// state->state[5] = 0x9b05688c;
-	// state->state[6] = 0x1f83d9ab;
-	// state->state[7] = 0x5be0cd19;
-	// switch endian
-	state->state[0] = 0x67e6096a;
-	state->state[1] = 0x85ae67bb;
-	state->state[2] = 0x72f36e3c;
-	state->state[3] = 0x3af54fa5;
-	state->state[4] = 0x7f520e51;
-	state->state[5] = 0x8c68059b;
-	state->state[6] = 0xabd9831f;
-	state->state[7] = 0x19cde05b;
+		
+	// original
+	state->state[0] = 0x6a09e667;
+	state->state[1] = 0xbb67ae85;
+	state->state[2] = 0x3c6ef372;
+	state->state[3] = 0xa54ff53a;
+	state->state[4] = 0x510e527f;
+	state->state[5] = 0x9b05688c;
+	state->state[6] = 0x1f83d9ab;
+	state->state[7] = 0x5be0cd19;
+	// // switch endian
+	// state->state[0] = 0x67e6096a;
+	// state->state[1] = 0x85ae67bb;
+	// state->state[2] = 0x72f36e3c;
+	// state->state[3] = 0x3af54fa5;
+	// state->state[4] = 0x7f520e51;
+	// state->state[5] = 0x8c68059b;
+	// state->state[6] = 0xabd9831f;
+	// state->state[7] = 0x19cde05b;
 	// ft_bzero(state->buf, BUFFER_SIZE);
 	hex_dump("init state", state->state, 16);
 	hex_dump("buf", state->buf, 64 * 2);
@@ -107,20 +104,20 @@ void	sha256_from_file(t_task *task, t_sha256_state *state)
 
 	hex_dump("final state", state->state, 64);
 
-	char hash[32];
+	// char hash[32];
 
-	for (int i = 0; i < 4; ++i) {
-		hash[i]      = (state->state[0] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 4]  = (state->state[1] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 8]  = (state->state[2] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 12] = (state->state[3] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 16] = (state->state[4] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 20] = (state->state[5] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 24] = (state->state[6] >> (24 - i * 8)) & 0x000000ff;
-		hash[i + 28] = (state->state[7] >> (24 - i * 8)) & 0x000000ff;
-	}
+	// for (int i = 0; i < 4; ++i) {
+	// 	hash[i]      = (state->state[0] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 4]  = (state->state[1] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 8]  = (state->state[2] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 12] = (state->state[3] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 16] = (state->state[4] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 20] = (state->state[5] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 24] = (state->state[6] >> (24 - i * 8)) & 0x000000ff;
+	// 	hash[i + 28] = (state->state[7] >> (24 - i * 8)) & 0x000000ff;
+	// }
 
-	hex_dump("final hash", hash, 32);
+	// hex_dump("final hash", hash, 32);
 }
 
 t_sha256_state	*sha256_pad(t_sha256_state *state)
@@ -159,8 +156,6 @@ t_sha256_state	*sha256_pad(t_sha256_state *state)
 	// int i = 0;
 
 	// then add total length of message (before padding) as unint64_t
-	uint64_t length = state->length * 8;
-	char	*lp = (char *)&length;
 	// while (i < 4)
 	// {
 	// 	// printf("state->length >> %d*8: %llx\n", i, state->length >> (i*8));
@@ -168,27 +163,39 @@ t_sha256_state	*sha256_pad(t_sha256_state *state)
 	// 	++i;
 	// }
 	// TODO: MAY BE DIFFERENT FOR SHA256
-	hex_dump("length", &length, 8);
-	// state->buf[state->ret + tmp + 7] = length;
-	// state->buf[state->ret + tmp + 6] = length >> 8;
-	// state->buf[state->ret + tmp + 5] = length >> 16;
-	// state->buf[state->ret + tmp + 4] = length >> 24;
-	// state->buf[state->ret + tmp + 3] = length >> 32;
-	// state->buf[state->ret + tmp + 2] = length >> 40;
-	// state->buf[state->ret + tmp + 1] = length >> 48;
-	// state->buf[state->ret + tmp + 0] = length >> 56;
+	
+	// hex_dump("length", &length, 8);
+	
+	// // == add length to end, method 1 == //  
+	// uint64_t length = state->length * 8;
 
+	// char	*lp = (char *)&length;
+	// state->buf[state->ret + tmp + 0] = lp[0];
+	// state->buf[state->ret + tmp + 1] = lp[1];
+	// state->buf[state->ret + tmp + 2] = lp[2];
+	// state->buf[state->ret + tmp + 3] = lp[3];
 
-	state->buf[state->ret + tmp + 0] = lp[0];
-	state->buf[state->ret + tmp + 1] = lp[1];
-	state->buf[state->ret + tmp + 2] = lp[2];
-	state->buf[state->ret + tmp + 3] = lp[3];
+	// state->buf[state->ret + tmp + 4] = lp[4];
+	// state->buf[state->ret + tmp + 5] = lp[5];
+	// state->buf[state->ret + tmp + 6] = lp[6];
+	// state->buf[state->ret + tmp + 7] = lp[7];
+	// printf("length: %llu\n", length);
 
-	state->buf[state->ret + tmp + 4] = lp[4];
-	state->buf[state->ret + tmp + 5] = lp[5];
-	state->buf[state->ret + tmp + 6] = lp[6];
-	state->buf[state->ret + tmp + 7] = lp[7];
-	printf("length: %llu\n", length);
+	// == add length to end, method 2 == //  
+	// state->buf[7] = (uint8_t) (length << 3);
+	// length >>= 5;
+	// for (int i = 6; i >= 0; i--) {
+	// 	state->buf[i] = (uint8_t) length;
+	// 	length >>= 8;
+	// }
+
+	// == add length to end, method 3 == // 
+	uint64_t length;
+	state->length *= 8;
+
+	byte_swap((void *)&length, (void *)&state->length, sizeof(length), 1);
+	*(uint64_t *)&(state->buf[state->ret + tmp]) = length;
+
 
 	hex_dump("state->state[0]", &state->state[0], 4);
 	// printf("final size: %lu\n", state->ret + tmp + 8);
@@ -222,9 +229,12 @@ void	sha256_transform(t_sha256_state *state)
 	hex_dump("w after bzero", w, 64 * 4);
 	// copy chunk into first 16 words w[0..15] of the message schedule array
 	// ft_memcpy(w, state->buf, BUFFER_SIZE);
-	decode(w, state->buf, 64);
+	// decode(w, state->buf, 64);
+	byte_swap((void *)w, (void *)state->buf, 4, 16);
+	hex_dump("state->buf", state->buf, 4 * 64);
 	hex_dump("w", w, 4 * 64);
 	
+	// exit(0);
 	// Extend the first 16 words into the remaining 48 words w[16..63] of the message schedule array:
 	i = 16;
 	while (i < 64)

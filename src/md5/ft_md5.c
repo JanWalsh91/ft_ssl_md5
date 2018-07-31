@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/30 14:38:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/07/31 12:07:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,12 @@ t_md5_state	*md5_pad(t_md5_state *state)
 
 	// then add total length of message (before padding) as unint64_t
 	uint64_t length = state->length * 8;
-	char	*lp = (char *)&length;
-	// while (i < 4)
-	// {
-	// 	// printf("state->length >> %d*8: %llx\n", i, state->length >> (i*8));
-	// 	state->buf[state->ret + tmp + 3 - i] = (uint8_t)(length >> (i*8));
-	// 	++i;
-	// }
+	
 	hex_dump("length", &length, 8);
+
+
+	// ============= Add length method 1 (works) ========== //
+	char	*lp = (char *)&length;
 	state->buf[state->ret + tmp + 0] = lp[0];
 	state->buf[state->ret + tmp + 1] = lp[1];
 	state->buf[state->ret + tmp + 2] = lp[2];
@@ -164,6 +162,15 @@ t_md5_state	*md5_pad(t_md5_state *state)
 	state->buf[state->ret + tmp + 5] = lp[5];
 	state->buf[state->ret + tmp + 6] = lp[6];
 	state->buf[state->ret + tmp + 7] = lp[7];
+
+	// ============= Add length method 2 (does not work) ========== //
+	// state->buf[7] = (uint8_t) (length << 3);
+	// length >>= 5;
+	// for (int i = 6; i >= 0; i--) {
+	// 	state->buf[i] = (uint8_t) length;
+	// 	length >>= 8;
+	// }
+
 	printf("length: %llu\n", length);
 
 	hex_dump("state->state[0]", &state->state[0], 4);
@@ -261,8 +268,13 @@ void	md5_transform(t_md5_state *state)
 	state_copy[2] = state->state[2];
 	state_copy[3] = state->state[3];
 	decode(x, state->buf, 64);
-	hex_dump("state->buf", state->buf, 64);
-	hex_dump("x", x, 64);
+	// hex_dump("state->buf", state->buf, 64);
+	// hex_dump("x (decode)", x, 64);
+	
+	// byte_swap((void*)x, (void *)state->buf, sizeof(*state->buf), BUFFER_SIZE / 4);
+	// hex_dump("x (byte_swap)", x, 64);
+
+	// exit(0);
 	i = 0;
 	while (i < 64)
 	{
