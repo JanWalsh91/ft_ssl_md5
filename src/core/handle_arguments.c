@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:45:31 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/01 20:56:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ t_option	parse_option(char *arg)
 	t_option					opt;
 
 	if (arg[0] != '-')
+		return (OPTION_NOT);
+	if (arg[0] == '-' && arg[1] == '\0')
 		return (OPTION_NOT);
 	opt = 1;
 	i = -1;
