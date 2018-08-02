@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 12:23:03 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 13:04:20 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int			show_error_message(t_task *task);
 */
 
 t_task		**handle_arguments();
+t_task	**handle_options(t_task **tasks, t_command command, char **av);
+t_task	**handle_p_opt(t_task **tasks, t_command command, int8_t *options);
 t_command	parse_command(char *arg);
 t_option	parse_option(char *arg);
 void		read_from_stdin();
