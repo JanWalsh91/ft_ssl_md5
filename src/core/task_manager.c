@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:57:28 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 09:51:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ t_task		*new_task(t_command cmd, int8_t opts, char *str)
 		return (NULL);
 	task->cmd = cmd;
 	task->opts = opts;
-	task->file = NULL;
-	task->str = NULL;
 	if ((task->opts | OPTION_S) == task->opts)
-		task->str = str;
+	{
+		if (str)
+			task->str = str;
+		else
+			ft_strcat(task->error, "option requires an argument -- s");
+	}
 	else
 		task->file = str;
 	if ((task->opts | OPTION_INVALID) == task->opts)
@@ -109,25 +112,33 @@ void		print_task_result(t_task *task)
 		NULL
 	};
 	
-	if ((task->opts | OPTION_Q) != task->opts)
+	if ((task->opts | OPTION_Q) != task->opts && 
+		(task->opts | OPTION_R) != task->opts)
 	{
 		ft_putstr(commands[task->cmd]);
 		ft_putstr(" (");
-		if ((task->opts | OPTION_S) == task->opts)
-		{
-			ft_putstr("\"");
-			ft_putstr(task->str);
-			ft_putstr("\"");
-		}
-		else
-			ft_putstr(task->file);
+		print_task_name(task);
 		ft_putstr(") = ");
 	}
 	ft_putstr(task->digest);
+	if ((task->opts | OPTION_R) == task->opts)
+	{
+		ft_putstr(" ");
+		print_task_name(task);
+	}
 	ft_putstr("\n");
+
 }
 
-// t_task	*illegal_option_task(t_task *task)
-// {
-	
-// }
+void		print_task_name(t_task *task)
+{
+	// printf("print_task_name\n");
+	if ((task->opts | OPTION_S) == task->opts)
+	{
+		ft_putstr("\"");
+		ft_putstr(task->str);
+		ft_putstr("\"");
+	}
+	else
+		ft_putstr(task->file);
+}

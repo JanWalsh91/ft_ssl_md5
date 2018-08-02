@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:53:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 09:48:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_task		**add_task(t_task **tasks, t_task *task);
 void		print_tasks(t_task **tasks);
 void		execute_task(t_task *task);
 void		print_task_result(t_task *task);
+void		print_task_name(t_task *task);
 
 /*
 ** Bitwise operations

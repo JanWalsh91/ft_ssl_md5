@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/01 20:56:40 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/01 21:02:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 t_task		**handle_arguments(int ac, char **av)
 {
-	printf("handle_arguments\n");
+	// printf("handle_arguments\n");
 	int8_t		options;
 	int			i;
 	t_command	command;
@@ -31,7 +31,7 @@ t_task		**handle_arguments(int ac, char **av)
 	// printf("ac: %d\n", ac);
 	if (ac <= 2)
 	{
-		printf("task: stdin\n");
+		// printf("task: stdin\n");
 		options |= OPTION_STDIN;
 		return (add_task(tasks, new_task(command, options, NULL)));
 	}
@@ -48,15 +48,10 @@ t_task		**handle_arguments(int ac, char **av)
 			return (add_task(tasks, new_task(command, options, av[i])));
 		if ((options | OPTION_S) == options)
 		{
-			// handle -s option
-			// TODO: create task with string
 			if (++i < ac)
 				tasks = add_task(tasks, new_task(command, options, av[i]));
 			else
-			{
-				printf("error must provide string after -s option\n");
-				return (NULL);
-			}
+				return (add_task(tasks, new_task(command, options, NULL)));
 			options -= OPTION_S;
 		}
 	}
