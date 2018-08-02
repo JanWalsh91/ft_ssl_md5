@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:10:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 11:28:40 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,14 @@ void	ft_md5(t_task *task)
 		md5_from_stdin(task, state);
 	else if (task->file)
 		md5_from_file(task, state);
-	// else
-		// md5_from_stdin(task, state);
+	else
+		md5_from_stdin(task, state);
 	task->digest = ft_bytetohex(state->state, 16);
 	// if OPTION_P: read from stdin
 	// else read from string
-
 	
-	// TODO: print result
 	// TODO: close, free state
+	free(state);
 }
 
 void	md5_from_file(t_task *task, t_md5_state *state)
@@ -45,7 +44,6 @@ void	md5_from_file(t_task *task, t_md5_state *state)
 	printf("md5_from_file\n");
 	int			fd;
 
-	// TODO: check for opening error
 	fd = open(task->file, O_RDONLY);
 	if (fd == -1)
 	{
@@ -54,14 +52,21 @@ void	md5_from_file(t_task *task, t_md5_state *state)
 		ft_strcat(task->error, strerror(errno));
 		return ;
 	}
-	// TODO: use return value to check for errors
 
 	// hex_dump("first state", state->state, 16);
 	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 		md5_update_state(state);
+	if (state->ret == -1)
+	{
+		ft_strcat(task->error, task->file);
+		ft_strcat(task->error, ": ");
+		ft_strcat(task->error, strerror(errno));
+		close(fd);
+		return ;
+	}
 	md5_update_state(md5_pad(state));
 	// hex_dump("final state", state->state, 16);
-	(void)task;
+	close(fd);
 }
 
 void	md5_from_string(t_task *task, t_md5_state *state)
@@ -91,8 +96,12 @@ void	md5_from_stdin(t_task *task, t_md5_state *state)
 	printf("md5_from_stdin\n");
 	while ((state->ret = read(0, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 	{
+		if ((task->opts | OPTION_P) == task->opts && state->ret)
+			ft_putstr((char *)state->buf);
 		md5_update_state(state);
 	}
+	if ((task->opts | OPTION_P) == task->opts && state->ret)
+		ft_putstr((char *)state->buf);
 	md5_update_state(md5_pad(state));
 	// hex_dump("final state", state->state, 16);
 	(void)task;

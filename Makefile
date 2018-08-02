@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/07/31 16:49:34 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/08/02 12:21:41 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,7 @@ SRCS_HELPER_FUNCTIONS = ft_bytetohex.c \
 
 SRCS_CORE = bitwise_operations.c \
 	handle_arguments.c \
-	print_usage.c \
-	read_from_stdin.c \
+	print_messages.c \
 	task_manager.c
 
 SRCS_MD5 = ft_md5.c

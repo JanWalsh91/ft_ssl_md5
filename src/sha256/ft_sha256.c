@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 14:35:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 11:29:32 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,12 @@ void	ft_sha256(t_task *task)
 	// if OPTION_S: read from string
 	if ((task->opts | OPTION_S) == task->opts)
 		sha256_from_string(task, state);
-	// else if ((task->opts | OPTION_STDIN) == task->opts)
-	// 	sha256_from_stdin(task, state);
-	// else if (task->file)
-	if (task->file)
+	else if ((task->opts | OPTION_STDIN) == task->opts)
+		sha256_from_stdin(task, state);
+	else if (task->file)
 		sha256_from_file(task, state);
 	else
-		printf("no file\n");
+		sha256_from_stdin(task, state);
 	
 	// Convert endianness
 	uint32_t state_copy[8];
@@ -48,6 +47,7 @@ void	ft_sha256(t_task *task)
 	
 	// TODO: print result
 	// TODO: close, free state
+	free(state);
 }
 
 t_sha256_state		*sha256_init_state(void)
@@ -82,22 +82,30 @@ void	sha256_from_file(t_task *task, t_sha256_state *state)
 	printf("sha256_from_file\n");
 	int			fd;
 
-	// TODO: check for opening error
 	fd = open(task->file, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("error opening\n");
-		exit(0);
+		ft_strcat(task->error, task->file);
+		ft_strcat(task->error, ": ");
+		ft_strcat(task->error, strerror(errno));
+		return ;
 	}
-	// TODO: use return value to check for errors
 
-	hex_dump("first state", state->state, 32);
+	// hex_dump("first state", state->state, 32);
 	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
 		sha256_update_state(state);
+	if (state->ret == -1)
+	{
+		ft_strcat(task->error, task->file);
+		ft_strcat(task->error, ": ");
+		ft_strcat(task->error, strerror(errno));
+		close(fd);
+		return ;
+	}
 	sha256_update_state(sha256_pad(state));
 
-
-	hex_dump("final state", state->state, 64);
+	close(fd);
+	// hex_dump("final state", state->state, 64);
 }
 
 void	sha256_from_string(t_task *task, t_sha256_state *state)
@@ -122,75 +130,54 @@ void	sha256_from_string(t_task *task, t_sha256_state *state)
 	// hex_dump("final state", state->state, 16);
 }
 
+void	sha256_from_stdin(t_task *task, t_sha256_state *state)
+{
+	printf("sha256_from_stdin\n");
+	while ((state->ret = read(0, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
+	{
+		if ((task->opts | OPTION_P) == task->opts && state->ret)
+			ft_putstr((char *)state->buf);
+		sha256_update_state(state);
+	}
+	if ((task->opts | OPTION_P) == task->opts && state->ret)
+		ft_putstr((char *)state->buf);
+	sha256_update_state(sha256_pad(state));
+	// hex_dump("final state", state->state, 16);
+}
+
 t_sha256_state	*sha256_pad(t_sha256_state *state)
 {
 	size_t		tmp;
 	// uint8_t		*p;
 
 	printf("sha256_pad\n");
-	hex_dump("buffer before padding", state->buf, 64);
+	// hex_dump("buffer before padding", state->buf, 64);
 	state->length += state->ret;
 	// printf("length: %llu\n", state->length);
 	// printf("ret: %d\n", state->ret);
-	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
+	// hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	// pad state->buf with 1 and 0's until length(state->buf) % (512/8) == 448/8
 	state->buf[state->ret] = 0x80;
-	hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
+	// hex_dump("buffer", state->buf, BUFFER_SIZE * 2);
 	if ((state->ret + 1) % 64 < 56)
 	{
-		printf("length less than 56\n");
+		// printf("length less than 56\n");
 		tmp = 56 - (state->length % 64);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
 	}
 	else
 	{
-		printf("length more than 56\n");
+		// printf("length more than 56\n");
 		tmp = 64 + 56 - (state->length % 64);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
 		sha256_transform(state);
-		hex_dump("buffer before cpy", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer before cpy", state->buf, BUFFER_SIZE * 2);
 		ft_memcpy(state->buf, state->buf + 64, 64);
-		hex_dump("buffer after cpy", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer after cpy", state->buf, BUFFER_SIZE * 2);
 		ft_bzero(state->buf + 64, 64);
-		hex_dump("buffer after bzero", state->buf, BUFFER_SIZE * 2);
+		// hex_dump("buffer after bzero", state->buf, BUFFER_SIZE * 2);
 		tmp -= 64;
 	}
-	// int i = 0;
-
-	// then add total length of message (before padding) as unint64_t
-	// while (i < 4)
-	// {
-	// 	// printf("state->length >> %d*8: %llx\n", i, state->length >> (i*8));
-	// 	state->buf[state->ret + tmp + 3 - i] = (uint8_t)(length >> (i*8));
-	// 	++i;
-	// }
-	// TODO: MAY BE DIFFERENT FOR SHA256
-	
-	// hex_dump("length", &length, 8);
-	
-	// // == add length to end, method 1 == //  
-	// uint64_t length = state->length * 8;
-
-	// char	*lp = (char *)&length;
-	// state->buf[state->ret + tmp + 0] = lp[0];
-	// state->buf[state->ret + tmp + 1] = lp[1];
-	// state->buf[state->ret + tmp + 2] = lp[2];
-	// state->buf[state->ret + tmp + 3] = lp[3];
-
-	// state->buf[state->ret + tmp + 4] = lp[4];
-	// state->buf[state->ret + tmp + 5] = lp[5];
-	// state->buf[state->ret + tmp + 6] = lp[6];
-	// state->buf[state->ret + tmp + 7] = lp[7];
-	// printf("length: %llu\n", length);
-
-	// == add length to end, method 2 == //  
-	// state->buf[7] = (uint8_t) (length << 3);
-	// length >>= 5;
-	// for (int i = 6; i >= 0; i--) {
-	// 	state->buf[i] = (uint8_t) length;
-	// 	length >>= 8;
-	// }
-
 	// == add length to end, method 3 == // 
 	uint64_t length;
 	state->length *= 8;
@@ -198,17 +185,16 @@ t_sha256_state	*sha256_pad(t_sha256_state *state)
 	byte_swap((void *)&length, (void *)&state->length, sizeof(length), 1);
 	*(uint64_t *)&(state->buf[state->ret + tmp]) = length;
 
-
-	hex_dump("state->state[0]", &state->state[0], 4);
+	// hex_dump("state->state[0]", &state->state[0], 4);
 	// printf("final size: %lu\n", state->ret + tmp + 8);
 	state->ret = 0;
-	hex_dump("buffer after padding", state->buf, 64);
+	// hex_dump("buffer after padding", state->buf, 64);
 	return (state);
 }
 
 void	sha256_update_state(t_sha256_state *state)
 {
-	printf("sha256_update_state\n");
+	// printf("sha256_update_state\n");
 	state->length += state->ret;
 	sha256_transform(state);
 	// empty buffer
@@ -218,7 +204,7 @@ void	sha256_update_state(t_sha256_state *state)
 void	sha256_transform(t_sha256_state *state)
 {
 	static int count = 0;
-	printf("===== sha256_transform: section %d ======\n", count);
+	// printf("===== sha256_transform: section %d ======\n", count);
 	uint32_t		state_copy[8];
 	uint32_t		w[64];
 	int				i;
@@ -226,15 +212,15 @@ void	sha256_transform(t_sha256_state *state)
 	uint32_t		s1;
 	// for state->buf, create 64-entry message
 
-	hex_dump("state->buf", state->buf, 64);
+	// hex_dump("state->buf", state->buf, 64);
 	ft_bzero(w, 64 * 4);
-	hex_dump("w after bzero", w, 64 * 4);
+	// hex_dump("w after bzero", w, 64 * 4);
 	// copy chunk into first 16 words w[0..15] of the message schedule array
 	// ft_memcpy(w, state->buf, BUFFER_SIZE);
 	// decode(w, state->buf, 64);
 	byte_swap((void *)w, (void *)state->buf, 4, 16);
-	hex_dump("state->buf", state->buf, 4 * 64);
-	hex_dump("w", w, 4 * 64);
+	// hex_dump("state->buf", state->buf, 4 * 64);
+	// hex_dump("w", w, 4 * 64);
 	
 	// exit(0);
 	// Extend the first 16 words into the remaining 48 words w[16..63] of the message schedule array:

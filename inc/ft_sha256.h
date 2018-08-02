@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:14:38 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 11:09:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_sha256(t_task *task);
 t_sha256_state	*sha256_init_state(void);
 void	sha256_from_file(t_task *task, t_sha256_state *state);
 void	sha256_from_string(t_task *task, t_sha256_state *state);
+void	sha256_from_stdin(t_task *task, t_sha256_state *state);
 t_sha256_state	*sha256_pad(t_sha256_state *state);
 void	sha256_update_state(t_sha256_state *state);
 void	sha256_transform(t_sha256_state *state);

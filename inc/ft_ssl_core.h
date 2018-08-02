@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 09:48:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 12:23:03 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@
 # include <errno.h>
 # include <string.h>
 
+#include "ft_ssl_helper_functions.h"
+
 typedef enum	e_option {
-	OPTION_S = 0b00000001,
-	OPTION_P = 0b00000010,
-	OPTION_Q = 0b00000100,
-	OPTION_R = 0b00001000,
-	OPTION_STDIN = 0b00010000,
-	OPTION_INVALID = 0b10000000,
-	OPTION_NOT = 0b01000000
+	OPTION_S		= 0b00000001,
+	OPTION_P		= 0b00000010,
+	OPTION_Q		= 0b00000100,
+	OPTION_R		= 0b00001000,
+	OPTION_STDIN	= 0b00010000,
+	OPTION_INVALID	= 0b10000000,
+	OPTION_NOT		= 0b01000000
 }				t_option;
 
 typedef enum	e_command {
@@ -40,11 +42,17 @@ typedef struct	s_task {
 	int8_t		opts;
 	char		*str;
 	char		*file;
-	char		*digest; // result
+	char		*digest;
 	char		error[512];
 }				t_task;
 
+/*
+** Print messages
+*/
+
 void		print_usage();
+void		print_commands();
+int			show_error_message(t_task *task);
 
 /*
 ** Parsing
@@ -65,6 +73,7 @@ void		print_tasks(t_task **tasks);
 void		execute_task(t_task *task);
 void		print_task_result(t_task *task);
 void		print_task_name(t_task *task);
+void		free_task(t_task *task);
 
 /*
 ** Bitwise operations
@@ -91,6 +100,5 @@ static const char *const	g_options[] = {
 	"-r",
 	NULL
 };
-
 
 #endif

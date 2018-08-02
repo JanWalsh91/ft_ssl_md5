@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 09:51:32 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 11:21:10 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,6 @@ void		execute_task(t_task *task)
 	};
 
 	tasks[task->cmd](task);
-
-	// ft_md5(task);
-	(void)tasks;
-	(void)task;
-	// iterate over command, call on list of function pointer?
 }
 
 void		print_tasks(t_task **tasks)
@@ -121,7 +116,8 @@ void		print_task_result(t_task *task)
 		ft_putstr(") = ");
 	}
 	ft_putstr(task->digest);
-	if ((task->opts | OPTION_R) == task->opts)
+	if ((task->opts | OPTION_Q) != task->opts &&
+		(task->opts | OPTION_R) == task->opts)
 	{
 		ft_putstr(" ");
 		print_task_name(task);
@@ -141,4 +137,13 @@ void		print_task_name(t_task *task)
 	}
 	else
 		ft_putstr(task->file);
+}
+
+void	free_task(t_task *task)
+{
+	if (!task)
+		return ;
+	if (task->digest)
+		free(task->digest);
+	free(task);	
 }
