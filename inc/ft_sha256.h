@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 14:54:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:34:13 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void					sha256_from_stdin(t_task *task, t_sha256_state *state);
 t_sha256_state			*sha256_pad(t_sha256_state *state);
 void					sha256_update_state(t_sha256_state *state);
 void					sha256_transform(t_sha256_state *state);
+void					compression(uint32_t state_copy[8], uint32_t w[64],
+							uint32_t *s0, uint32_t *s1);
 
 static const uint32_t	g_sha256_k[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1,

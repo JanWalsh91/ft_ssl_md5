@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 14:38:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:33:55 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_md5_state				*md5_init_state(void);
 void					md5_update_state(t_md5_state *state);
 t_md5_state				*md5_pad(t_md5_state *state);
 void					md5_transform(t_md5_state *state);
-void					get_f_and_g(uint32_t *f, uint32_t *g, uint32_t state_copy[4], uint32_t i);
+void					get_f_and_g(uint32_t *f, uint32_t *g,
+							uint32_t state_copy[4], uint32_t i);
 
 /*
 ** Helper functions
