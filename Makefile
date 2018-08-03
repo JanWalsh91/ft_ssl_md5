@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/08/03 10:25:49 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/08/03 14:44:03 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,9 @@ SRCS_CORE = bitwise_operations.c \
 	print_task_result.c \
 	task_manager.c
 
-SRCS_MD5 = ft_md5.c
+SRCS_MD5 = ft_md5_helper_functions.c \
+	ft_md5_update_state.c \
+	ft_md5.c
 
 SRCS_SHA256 = ft_sha256.c
 
