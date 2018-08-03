@@ -6,19 +6,20 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 13:22:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:45:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 #include "ft_md5.h"
 #include "ft_sha256.h"
+#include "ft_sha512.h"
 
 int	main(int ac, char **av)
 {
 	t_task							**tasks;
 	int								i;
-	static const t_task_executor	task_f[2] = {&ft_md5, &ft_sha256};
+	static const t_task_executor	task_f[3] = {&ft_md5, &ft_sha256, &ft_sha512};
 
 	if (ac <= 1)
 	{

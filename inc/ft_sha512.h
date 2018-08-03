@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sha256.h                                        :+:      :+:    :+:   */
+/*   ft_sha512.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:40:09 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:41:35 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_SHA256_H
-# define FT_SHA256_H
+#ifndef FT_SHA512_H
+# define FT_SHA512_H
 
 # include <math.h>
 # include <fcntl.h>
@@ -22,26 +22,26 @@
 
 # define BUFFER_SIZE 64
 
-typedef	struct			s_sha256_state
+typedef	struct			s_sha512_state
 {
 	uint32_t			state[8];
 	unsigned char		buf[BUFFER_SIZE * 2];
 	int					ret;
 	uint64_t			length;
-}						t_sha256_state;
+}						t_sha512_state;
 
-void					ft_sha256(t_task *task);
-t_sha256_state			*sha256_init_state(void);
-void					sha256_from_file(t_task *task, t_sha256_state *state);
-void					sha256_from_string(t_task *task, t_sha256_state *state);
-void					sha256_from_stdin(t_task *task, t_sha256_state *state);
-t_sha256_state			*sha256_pad(t_sha256_state *state);
-void					sha256_update_state(t_sha256_state *state);
-void					sha256_transform(t_sha256_state *state);
-void					sha256_compression(uint32_t state_copy[8],
+void					ft_sha512(t_task *task);
+t_sha512_state			*sha512_init_state(void);
+void					sha512_from_file(t_task *task, t_sha512_state *state);
+void					sha512_from_string(t_task *task, t_sha512_state *state);
+void					sha512_from_stdin(t_task *task, t_sha512_state *state);
+t_sha512_state			*sha512_pad(t_sha512_state *state);
+void					sha512_update_state(t_sha512_state *state);
+void					sha512_transform(t_sha512_state *state);
+void					sha512_compression(uint32_t state_copy[8],
 							uint32_t w[64], uint32_t *s0, uint32_t *s1);
 
-static const uint32_t	g_sha256_k[64] = {
+static const uint32_t	g_sha512_k[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1,
 	0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
 	0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 0xe49b69c1, 0xefbe4786,

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sha256_update_state.c                           :+:      :+:    :+:   */
+/*   ft_sha512_update_state.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:41:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:41:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_sha256.h"
+#include "ft_sha512.h"
 
-void			sha256_update_state(t_sha256_state *state)
+void			sha512_update_state(t_sha512_state *state)
 {
 	state->length += state->ret;
-	sha256_transform(state);
+	sha512_transform(state);
 	ft_bzero(state->buf, 64 * 2);
 }
 
-t_sha256_state	*sha256_pad(t_sha256_state *state)
+t_sha512_state	*sha512_pad(t_sha512_state *state)
 {
 	size_t		tmp;
 	uint64_t	length;
@@ -35,7 +35,7 @@ t_sha256_state	*sha256_pad(t_sha256_state *state)
 	{
 		tmp = 64 + 56 - (state->length % 64);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
-		sha256_transform(state);
+		sha512_transform(state);
 		ft_memcpy(state->buf, state->buf + 64, 64);
 		ft_bzero(state->buf + 64, 64);
 		tmp -= 64;
@@ -47,7 +47,7 @@ t_sha256_state	*sha256_pad(t_sha256_state *state)
 	return (state);
 }
 
-void			sha256_transform(t_sha256_state *state)
+void			sha512_transform(t_sha512_state *state)
 {
 	uint32_t		state_copy[8];
 	uint32_t		w[64];
@@ -68,13 +68,13 @@ void			sha256_transform(t_sha256_state *state)
 		++i;
 	}
 	ft_memcpy(state_copy, state->state, sizeof(state_copy));
-	sha256_compression(state_copy, w, &s0, &s1);
+	sha512_compression(state_copy, w, &s0, &s1);
 	i = -1;
 	while (++i < 8)
 		state->state[i] += state_copy[i];
 }
 
-void			sha256_compression(uint32_t state_copy[8], uint32_t w[64],
+void			sha512_compression(uint32_t state_copy[8], uint32_t w[64],
 				uint32_t *s0, uint32_t *s1)
 {
 	uint32_t	tmp[4];
@@ -87,7 +87,7 @@ void			sha256_compression(uint32_t state_copy[8], uint32_t w[64],
 			^ rotate_right(state_copy[4], 25);
 		tmp[0] = (state_copy[4] & state_copy[5])
 			^ ((~state_copy[4]) & state_copy[6]);
-		tmp[2] = state_copy[7] + *s1 + tmp[0] + g_sha256_k[i] + w[i];
+		tmp[2] = state_copy[7] + *s1 + tmp[0] + g_sha512_k[i] + w[i];
 		*s0 = rotate_right(state_copy[0], 2) ^ rotate_right(state_copy[0], 13)
 			^ rotate_right(state_copy[0], 22);
 		tmp[1] = (state_copy[0] & state_copy[1])

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 10:31:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 16:44:54 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef enum				e_option {
 typedef enum				e_command {
 	CMD_MD5,
 	CMD_SHA256,
+	CMD_SHA512,
 	CMD_INVALID
 }							t_command;
 
@@ -95,6 +96,7 @@ void						byte_swap(void *output, void *input,
 static const char *const	g_commands[] = {
 	"md5",
 	"sha256",
+	"sha512",
 	NULL
 };
 
