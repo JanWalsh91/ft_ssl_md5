@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 11:31:27 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 11:50:56 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,35 +22,35 @@
 
 # define BUFFER_SIZE 64
 
-typedef	struct	s_md5_state
+typedef	struct			s_md5_state
 {
-	uint32_t		state[4];
-	unsigned char	buf[BUFFER_SIZE * 2];
-	int				ret;
-	uint64_t		length;
-}				t_md5_state;
+	uint32_t			state[4];
+	unsigned char		buf[BUFFER_SIZE * 2];
+	int					ret;
+	uint64_t			length;
+}						t_md5_state;
 
-void			ft_md5(t_task *task);
-void			md5_from_file(t_task *task, t_md5_state *state);
-void			md5_from_string(t_task *task, t_md5_state *state);
-void			md5_from_stdin(t_task *task, t_md5_state *state);
-t_md5_state		*md5_init_state(void);
-void			md5_update_state(t_md5_state *state);
-t_md5_state		*md5_pad(t_md5_state *state);
-void			md5_transform(t_md5_state *state);
+void					ft_md5(t_task *task);
+void					md5_from_file(t_task *task, t_md5_state *state);
+void					md5_from_string(t_task *task, t_md5_state *state);
+void					md5_from_stdin(t_task *task, t_md5_state *state);
+t_md5_state				*md5_init_state(void);
+void					md5_update_state(t_md5_state *state);
+t_md5_state				*md5_pad(t_md5_state *state);
+void					md5_transform(t_md5_state *state);
 
+/*
+** Helper functions
+*/
+uint32_t				md5_f(uint32_t x, uint32_t y, uint32_t z);
+uint32_t				md5_g(uint32_t x, uint32_t y, uint32_t z);
+uint32_t				md5_h(uint32_t x, uint32_t y, uint32_t z);
+uint32_t				md5_i(uint32_t x, uint32_t y, uint32_t z);
 
-// helper functions
-uint32_t	md5_f(uint32_t x, uint32_t y, uint32_t z);
-uint32_t	md5_g(uint32_t x, uint32_t y, uint32_t z);
-uint32_t	md5_h(uint32_t x, uint32_t y, uint32_t z);
-uint32_t	md5_i(uint32_t x, uint32_t y, uint32_t z);
+void					decode(uint32_t *output, unsigned char *input,
+							unsigned int len);
 
-// void	encode(unsigned char *output, uint32_t *input, unsigned int len);
-void	decode(uint32_t *output, unsigned char *input, unsigned int len);
-
-// original
-static const uint32_t		g_md5_t[64] = {
+static const uint32_t	g_md5_t[64] = {
 	0xd76aa478,
 	0xe8c7b756,
 	0x242070db,

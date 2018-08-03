@@ -6,16 +6,15 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/30 18:39:37 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:47:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/03 11:35:38 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_ssl_helper_functions.h"
 
 /*
 ** Puts the lowercase chars in a char string to uppercase.
 */
-
-#include "ft_ssl_helper_functions.h"
 
 void	ft_strtoupper(char *s)
 {

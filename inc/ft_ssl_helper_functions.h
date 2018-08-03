@@ -6,12 +6,12 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/07/31 16:49:06 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/02 14:53:16 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HELPER_FUNCTIONS_H
-# define HELPER_FUNCTIONS_H
+#ifndef FT_SSL_HELPER_FUNCTIONS_H
+# define FT_SSL_HELPER_FUNCTIONS_H
 
 # include <stdio.h>
 # include <unistd.h>
