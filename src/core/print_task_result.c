@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 10:26:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 14:05:49 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 
-void		print_task_result(t_task *task)
+void		print_task_result(t_task *task, char *verify)
 {
 	static char	commands[10][64];
 
@@ -32,6 +32,8 @@ void		print_task_result(t_task *task)
 		ft_putstr(" ");
 		print_task_name(task);
 	}
+	if (verify)
+		verify_task_result(task, verify);
 	ft_putstr("\n");
 }
 
@@ -59,4 +61,12 @@ void		init_task_result_names(char commands[10][64])
 			ft_strtoupper(commands[i]);
 		}
 	}
+}
+
+void		verify_task_result(t_task *task, char *verify)
+{
+	if (!ft_strcmp(task->digest, verify))
+		ft_putstr(" - verified correct");
+	else
+		ft_putstr(" - verified incorrect");
 }

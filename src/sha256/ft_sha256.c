@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:33:18 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:55:05 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void			ft_sha256(t_task *task)
 	t_sha256_state	*state;
 	uint32_t		state_copy[8];
 
+	if ((task->opts | OPTION_X) == task->opts)
+	{
+		sha256_test_suite();
+		return ;
+	}
 	if (!(state = sha256_init_state()))
 		return ;
 	if ((task->opts | OPTION_S) == task->opts)
@@ -82,6 +87,8 @@ void			sha256_from_string(t_task *task, t_sha256_state *state)
 	size_t			copy_length;
 
 	p = task->str;
+	if (!*p)
+		sha256_update_state(sha256_pad(state));
 	while (*p)
 	{
 		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p);

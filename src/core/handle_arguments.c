@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 11:23:02 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:55:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_task		**handle_arguments(int ac, char **av)
 
 t_task		**handle_options(t_task **tasks, t_command command, char **av)
 {
-	int8_t	options;
+	int16_t	options;
 	int		i;
 
 	options = 0;
@@ -37,6 +37,7 @@ t_task		**handle_options(t_task **tasks, t_command command, char **av)
 	while (av[++i])
 	{
 		options |= parse_option(av[i]);
+		// printf("options: %hd\n", options);
 		if ((options | OPTION_NOT) == options)
 			break ;
 		if ((options | OPTION_INVALID) == options)
@@ -48,19 +49,28 @@ t_task		**handle_options(t_task **tasks, t_command command, char **av)
 			tasks = add_task(tasks, new_task(command, options, av[i]));
 			options -= OPTION_S;
 		}
-		if ((options | OPTION_P) == options)
-			tasks = handle_p_opt(tasks, command, &options);
+		tasks = handle_px_opts(tasks, command, &options);
 	}
 	while (av[i])
 		tasks = add_task(tasks, new_task(command, options, av[i++]));
 	return (tasks);
 }
 
-t_task		**handle_p_opt(t_task **tasks, t_command command, int8_t *options)
+t_task		**handle_px_opts(t_task **tasks, t_command command, int16_t *options)
 {
-	tasks = add_task(tasks, new_task(command,
-		*options | OPTION_STDIN | OPTION_Q, NULL));
-	*options -= OPTION_P;
+	if ((*options | OPTION_P) == *options)
+	{
+		tasks = add_task(tasks, new_task(command,
+			*options | OPTION_STDIN | OPTION_Q, NULL));
+		*options -= OPTION_P;
+	}
+	if ((*options | OPTION_X) == *options)
+	{
+		// printf("handle X option\n");
+		tasks = add_task(tasks, new_task(command,
+			OPTION_X, NULL));
+		*options -= OPTION_X;
+	}
 	return (tasks);
 }
 
@@ -77,17 +87,23 @@ t_command	parse_command(char *arg)
 
 t_option	parse_option(char *arg)
 {
+	// printf("parse_option\n");
 	int			i;
 	t_option	opt;
 
 	if (arg[0] != '-' || (arg[0] == '-' && arg[1] == '\0'))
+	{
+		// printf("OPTION_NOT: %d\n", OPTION_NOT);
 		return (OPTION_NOT);
+	}
 	opt = 1;
 	i = -1;
 	while (g_options[++i])
 	{
 		if (!ft_strcmp(arg, g_options[i]))
 		{
+			// printf("option found: %s\n", g_options[i]);
+			// printf("OPTION_X: %d\n", OPTION_X);
 			if (arg == g_options[1])
 				return (OPTION_P);
 			return (opt);

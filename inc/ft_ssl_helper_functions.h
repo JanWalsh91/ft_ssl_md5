@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 15:41:00 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 14:53:16 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 14:55:28 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*ft_memalloc(size_t size);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_putchar(char c);
+void	ft_putnbr(int nb);
 void	ft_putstr(char const *s);
 char	*ft_strcat(char *s1, char *s2);
 int		ft_strcmp(const char *s1, const char *s2);

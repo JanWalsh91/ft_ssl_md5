@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/08/03 16:39:42 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/08/06 16:54:53 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS_HELPER_FUNCTIONS = ft_bytetohex.c \
 	ft_memcpy.c \
 	ft_memset.c \
 	ft_putchar.c \
+	ft_putnbr.c \
 	ft_putstr.c \
 	ft_strcat.c \
 	ft_strcmp.c \
@@ -42,10 +43,12 @@ SRCS_CORE = bitwise_operations.c \
 	task_manager.c
 
 SRCS_MD5 = ft_md5_helper_functions.c \
+	ft_md5_test_suite.c \
 	ft_md5_update_state.c \
 	ft_md5.c
 
-SRCS_SHA256 = ft_sha256_update_state.c \
+SRCS_SHA256 = ft_sha256_test_suite.c \
+	ft_sha256_update_state.c \
 	ft_sha256.c 
 
 SRCS_SHA512 = ft_sha512_update_state.c \

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/19 13:42:17 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:45:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:56:08 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ int	main(int ac, char **av)
 		if (tasks[i]->error[0])
 			return (show_error_message(tasks[i]));
 		task_f[tasks[i]->cmd](tasks[i]);
+		if (((tasks[i]->opts | OPTION_X) == tasks[i]->opts))
+			continue ;
 		if (tasks[i]->error[0])
 			show_error_message(tasks[i]);
 		else
-			print_task_result(tasks[i]);
+			print_task_result(tasks[i], NULL);
 		free_task(tasks[i]);
 	}
 	return (0);

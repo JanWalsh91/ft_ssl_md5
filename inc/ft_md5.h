@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:33:55 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:55:19 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 # include "ft_ssl_core.h"
 # include "ft_ssl_helper_functions.h"
 
 # define BUFFER_SIZE 64
+# define MD5_TESTS 8
 
 typedef	struct			s_md5_state
 {
@@ -40,6 +42,14 @@ t_md5_state				*md5_pad(t_md5_state *state);
 void					md5_transform(t_md5_state *state);
 void					get_f_and_g(uint32_t *f, uint32_t *g,
 							uint32_t state_copy[4], uint32_t i);
+
+/*
+** Test suite
+*/
+
+void					md5_test_suite(void);
+char					**md5_get_test_strings(void);
+char					**md5_get_result_strings(void);
 
 /*
 ** Helper functions

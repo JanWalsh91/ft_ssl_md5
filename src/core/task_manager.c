@@ -6,13 +6,13 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 11:31:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 13:10:51 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 
-t_task		*new_task(t_command cmd, int8_t opts, char *str)
+t_task		*new_task(t_command cmd, int16_t opts, char *str)
 {
 	t_task	*task;
 

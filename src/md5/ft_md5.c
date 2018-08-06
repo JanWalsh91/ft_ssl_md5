@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 14:44:29 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:54:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,14 @@
 
 void			ft_md5(t_task *task)
 {
+	// printf("ft_md5\n");
 	t_md5_state *state;
 
+	if ((task->opts | OPTION_X) == task->opts)
+	{
+		md5_test_suite();
+		return ;
+	}
 	if (!(state = md5_init_state()))
 		return ;
 	if ((task->opts | OPTION_S) == task->opts)
@@ -62,6 +68,8 @@ void			md5_from_string(t_task *task, t_md5_state *state)
 	size_t			copy_length;
 
 	p = task->str;
+	if (!*p)
+		md5_update_state(md5_pad(state));
 	while (*p)
 	{
 		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p);

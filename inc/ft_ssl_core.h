@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:44:54 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 16:55:50 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 # include "ft_ssl_helper_functions.h"
 
 typedef enum				e_option {
-	OPTION_S = 0b00000001,
-	OPTION_P = 0b00000010,
-	OPTION_Q = 0b00000100,
-	OPTION_R = 0b00001000,
-	OPTION_STDIN = 0b00010000,
-	OPTION_INVALID = 0b10000000,
-	OPTION_NOT = 0b01000000
+	OPTION_S		= 0b000000001,
+	OPTION_P		= 0b000000010,
+	OPTION_Q		= 0b000000100,
+	OPTION_R		= 0b000001000,
+	OPTION_X		= 0b000010000,
+	OPTION_STDIN	= 0b001000000,
+	OPTION_INVALID	= 0b010000000,
+	OPTION_NOT		= 0b100000000
 }							t_option;
 
 typedef enum				e_command {
@@ -39,7 +40,7 @@ typedef enum				e_command {
 
 typedef struct				s_task {
 	t_command				cmd;
-	int8_t					opts;
+	int16_t					opts;
 	char					*str;
 	char					*file;
 	char					*digest;
@@ -60,26 +61,28 @@ int							show_error_message(t_task *task);
 ** Parsing
 */
 
-t_task						**handle_arguments();
+t_task						**handle_arguments(int ac, char **av);
 t_task						**handle_options(t_task **tasks, t_command command,
 								char **av);
-t_task						**handle_p_opt(t_task **tasks, t_command command,
-								int8_t *options);
+t_task						**handle_px_opts(t_task **tasks, t_command command,
+								int16_t *options);
 t_command					parse_command(char *arg);
 t_option					parse_option(char *arg);
-void						read_from_stdin();
+void						read_from_stdin(void);
 
 /*
 ** Task manager
 */
 
-t_task						*new_task(t_command cmd, int8_t opts, char *str);
+t_task						*new_task(t_command cmd, int16_t opts, char *str);
 int							invalid_cmd_opt(t_task *task, char *str);
 t_task						**add_task(t_task **tasks, t_task *task);
-void						print_task_result(t_task *task);
+void						print_task_result(t_task *task, char *verify);
 void						print_task_name(t_task *task);
 void						free_task(t_task *task);
 void						init_task_result_names(char commands[3][64]);
+void						verify_task_result(t_task *task, char *verify);
+
 /*
 ** Bitwise operations
 */
@@ -105,6 +108,7 @@ static const char *const	g_options[] = {
 	"-p",
 	"-q",
 	"-r",
+	"-x",
 	NULL
 };
 

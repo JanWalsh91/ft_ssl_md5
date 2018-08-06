@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:38:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 13:59:45 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void			sha512_from_string(t_task *task, t_sha512_state *state)
 	size_t			copy_length;
 
 	p = task->str;
+	if (!*p)
+		sha512_update_state(sha512_pad(state));
 	while (*p)
 	{
 		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p);
