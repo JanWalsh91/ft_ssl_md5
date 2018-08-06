@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:55:19 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:05:58 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 # include "ft_ssl_core.h"
 # include "ft_ssl_helper_functions.h"
 
-# define BUFFER_SIZE 64
+# define MD5_BUFFER_SIZE 64
 # define MD5_TESTS 8
 
 typedef	struct			s_md5_state
 {
 	uint32_t			state[4];
-	unsigned char		buf[BUFFER_SIZE * 2];
+	unsigned char		buf[MD5_BUFFER_SIZE * 2];
 	int					ret;
 	uint64_t			length;
 }						t_md5_state;

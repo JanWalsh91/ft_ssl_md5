@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 16:41:46 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:14:15 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void			sha256_transform(t_sha256_state *state)
 	i = 16;
 	while (i < 64)
 	{
-		s0 = rotate_right(w[i - 15], 7)
-			^ rotate_right(w[i - 15], 18) ^ (w[i - 15] >> 3);
-		s1 = rotate_right(w[i - 2], 17)
-			^ rotate_right(w[i - 2], 19) ^ (w[i - 2] >> 10);
+		s0 = rotate_right_32(w[i - 15], 7)
+			^ rotate_right_32(w[i - 15], 18) ^ (w[i - 15] >> 3);
+		s1 = rotate_right_32(w[i - 2], 17)
+			^ rotate_right_32(w[i - 2], 19) ^ (w[i - 2] >> 10);
 		w[i] = w[i - 16] + s0 + w[i - 7] + s1;
 		++i;
 	}
@@ -83,13 +83,13 @@ void			sha256_compression(uint32_t state_copy[8], uint32_t w[64],
 	i = -1;
 	while (++i < 64)
 	{
-		*s1 = rotate_right(state_copy[4], 6) ^ rotate_right(state_copy[4], 11)
-			^ rotate_right(state_copy[4], 25);
+		*s1 = rotate_right_32(state_copy[4], 6) ^ rotate_right_32(state_copy[4], 11)
+			^ rotate_right_32(state_copy[4], 25);
 		tmp[0] = (state_copy[4] & state_copy[5])
 			^ ((~state_copy[4]) & state_copy[6]);
 		tmp[2] = state_copy[7] + *s1 + tmp[0] + g_sha256_k[i] + w[i];
-		*s0 = rotate_right(state_copy[0], 2) ^ rotate_right(state_copy[0], 13)
-			^ rotate_right(state_copy[0], 22);
+		*s0 = rotate_right_32(state_copy[0], 2) ^ rotate_right_32(state_copy[0], 13)
+			^ rotate_right_32(state_copy[0], 22);
 		tmp[1] = (state_copy[0] & state_copy[1])
 			^ (state_copy[0] & state_copy[2]) ^ (state_copy[1] & state_copy[2]);
 		tmp[3] = *s0 + tmp[1];

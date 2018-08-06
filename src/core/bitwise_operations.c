@@ -6,20 +6,30 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 14:36:22 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/02 13:07:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:12:52 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl_core.h"
 
-uint32_t	rotate_left(uint32_t x, uint32_t n)
+uint32_t	rotate_left_32(uint32_t x, uint32_t n)
 {
 	return (((x) << (n)) | ((x) >> (32 - (n))));
 }
 
-uint32_t	rotate_right(uint32_t x, uint32_t n)
+uint32_t	rotate_right_32(uint32_t x, uint32_t n)
 {
 	return (((x) >> (n)) | ((x) << (32 - (n))));
+}
+
+uint64_t	rotate_left_64(uint64_t x, uint64_t n)
+{
+	return (((x) << (n)) | ((x) >> (64 - (n))));
+}
+
+uint64_t	rotate_right_64(uint64_t x, uint64_t n)
+{
+	return (((x) >> (n)) | ((x) << (64 - (n))));
 }
 
 /*

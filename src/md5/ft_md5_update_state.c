@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:52:34 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:13:44 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void		md5_transform(t_md5_state *state)
 		state_copy[0] = state_copy[3];
 		state_copy[3] = state_copy[2];
 		state_copy[2] = state_copy[1];
-		state_copy[1] = state_copy[1] + rotate_left(f, g_md5_s[i]);
+		state_copy[1] = state_copy[1] + rotate_left_32(f, g_md5_s[i]);
 		i++;
 	}
 	state->state[0] += state_copy[0];

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:55:05 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:07:06 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void			sha256_from_file(t_task *task, t_sha256_state *state)
 		ft_strcat(task->error, strerror(errno));
 		return ;
 	}
-	while ((state->ret = read(fd, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
+	while ((state->ret = read(fd, &state->buf, SHA256_BUFFER_SIZE)) == SHA256_BUFFER_SIZE)
 		sha256_update_state(state);
 	if (state->ret == -1)
 	{
@@ -91,11 +91,11 @@ void			sha256_from_string(t_task *task, t_sha256_state *state)
 		sha256_update_state(sha256_pad(state));
 	while (*p)
 	{
-		copy_length = ft_strlen(p) >= BUFFER_SIZE ? BUFFER_SIZE : ft_strlen(p);
+		copy_length = ft_strlen(p) >= SHA256_BUFFER_SIZE ? SHA256_BUFFER_SIZE : ft_strlen(p);
 		ft_memcpy(state->buf, p, copy_length);
 		state->ret = copy_length;
 		p += copy_length;
-		if (state->ret == BUFFER_SIZE)
+		if (state->ret == SHA256_BUFFER_SIZE)
 			sha256_update_state(state);
 		else
 			sha256_update_state(sha256_pad(state));
@@ -105,7 +105,7 @@ void			sha256_from_string(t_task *task, t_sha256_state *state)
 
 void			sha256_from_stdin(t_task *task, t_sha256_state *state)
 {
-	while ((state->ret = read(0, &state->buf, BUFFER_SIZE)) == BUFFER_SIZE)
+	while ((state->ret = read(0, &state->buf, SHA256_BUFFER_SIZE)) == SHA256_BUFFER_SIZE)
 	{
 		if ((task->opts | OPTION_P) == task->opts && state->ret)
 			ft_putstr((char *)state->buf);

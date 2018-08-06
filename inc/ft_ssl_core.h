@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:55:50 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:14:47 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,10 @@ void						verify_task_result(t_task *task, char *verify);
 ** Bitwise operations
 */
 
-uint32_t					rotate_left(uint32_t x, uint32_t n);
-uint32_t					rotate_right(uint32_t x, uint32_t n);
+uint32_t					rotate_left_32(uint32_t x, uint32_t n);
+uint32_t					rotate_right_32(uint32_t x, uint32_t n);
+uint64_t					rotate_left_64(uint64_t x, uint64_t n);
+uint64_t					rotate_right_64(uint64_t x, uint64_t n);
 void						byte_swap(void *output, void *input,
 								size_t batch_size, size_t len);
 

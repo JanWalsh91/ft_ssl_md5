@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:55:24 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/06 17:06:46 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include "ft_ssl_core.h"
 # include "ft_ssl_helper_functions.h"
 
-# define BUFFER_SIZE 64
+# define SHA256_BUFFER_SIZE 64
 # define SHA256_TESTS 8
 
 typedef	struct			s_sha256_state
 {
 	uint32_t			state[8];
-	unsigned char		buf[BUFFER_SIZE * 2];
+	unsigned char		buf[SHA256_BUFFER_SIZE * 2];
 	int					ret;
 	uint64_t			length;
 }						t_sha256_state;
