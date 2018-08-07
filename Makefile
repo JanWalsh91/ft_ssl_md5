@@ -6,7 +6,7 @@
 #    By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/07/10 15:59:40 by jwalsh            #+#    #+#              #
-#    Updated: 2018/08/06 16:54:53 by jwalsh           ###   ########.fr        #
+#    Updated: 2018/08/07 09:44:25 by jwalsh           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRCS_SHA256 = ft_sha256_test_suite.c \
 	ft_sha256_update_state.c \
 	ft_sha256.c 
 
-SRCS_SHA512 = ft_sha512_update_state.c \
+SRCS_SHA512 = ft_sha512_test_suite.c \
+	ft_sha512_update_state.c \
 	ft_sha512.c 
 
 HEADER_DIR = ./inc

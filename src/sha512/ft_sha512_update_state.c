@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:56:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/07 09:42:21 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void			sha512_update_state(t_sha512_state *state)
 {
-	state->length += state->ret;
+	if (8 * state->ret + state->length[1] < state->length[1])
+		++state->length[0];
+	state->length[1] += 8 * state->ret;
+	
 	sha512_transform(state);
 	ft_bzero(state->buf, 64 * 4);
 }
@@ -24,31 +27,27 @@ t_sha512_state	*sha512_pad(t_sha512_state *state)
 	size_t		tmp;
 	uint64_t	length[2];
 
-	state->length += state->ret;
+	if (8 * state->ret + state->length[1] < state->length[1])
+		++state->length[0];
+	state->length[1] += 8 * state->ret;
 	state->buf[state->ret] = 0x80;
 	if ((state->ret + 1) % 128 < 112)
 	{
-		tmp = 112 - (state->length % 128);
+		tmp = 112 - ((state->length[1] / 8) % 128);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
 	}
 	else
 	{
-		tmp = 128 + 112 - (state->length % 128);
+		tmp = 128 + 112 - ((state->length[1] / 8) % 128);
 		ft_memset(&state->buf[state->ret + 1], 0, tmp);
 		sha512_transform(state);
 		ft_memcpy(state->buf, state->buf + 128, 128);
 		ft_bzero(state->buf + 128, 128);
 		tmp -= 128;
 	}
-	state->length *= 8;
-	printf("state->length: %llx\n", state->length);
-	hex_dump("1", &state->buf, 16*8);
-	byte_swap((void *)&length, (void *)&state->length, sizeof(length), 1);
-	printf("length: %llx\n", length[1]);
-	// *(uint64_t *)&(state->buf[state->ret + tmp]) = length;
+	byte_swap((void *)&length, (void *)&state->length, sizeof(state->length[0]), 2);
 	*(uint64_t *)&(state->buf[state->ret + tmp]) = length[0];
 	*(uint64_t *)&(state->buf[state->ret + tmp + 8]) = length[1];
-	hex_dump("2", &state->buf, 16*8);
 	state->ret = 0;
 	return (state);
 }

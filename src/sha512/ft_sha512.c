@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:26:23 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/07 09:45:37 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ void			ft_sha512(t_task *task)
 	t_sha512_state	*state;
 	uint64_t		state_copy[8];
 
+	if ((task->opts | OPTION_X) == task->opts)
+	{
+		sha512_test_suite();
+		return ;
+	}
 	if (!(state = sha512_init_state()))
 		return ;
 	if ((task->opts | OPTION_S) == task->opts)

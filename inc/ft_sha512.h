@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:27 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:43:36 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/07 09:44:09 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 # include "ft_ssl_helper_functions.h"
 
 # define SHA512_BUFFER_SIZE 128
+# define SHA512_TESTS 8
 
 typedef	struct			s_sha512_state
 {
 	uint64_t			state[8];
 	unsigned char		buf[SHA512_BUFFER_SIZE * 2];
 	int					ret;
-	uint64_t			length;
+	uint64_t			length[2];
 }						t_sha512_state;
 
 void					ft_sha512(t_task *task);
@@ -40,6 +41,10 @@ void					sha512_update_state(t_sha512_state *state);
 void					sha512_transform(t_sha512_state *state);
 void					sha512_compression(uint64_t state_copy[8],
 							uint64_t w[80], uint64_t *s0, uint64_t *s1);
+
+void					sha512_test_suite(void);
+char					**sha512_get_test_strings(void);
+char					**sha512_get_result_strings(void);
 
 static const uint64_t	g_sha512_k[80] = {
 	0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc, 0x3956c25bf348b538, 

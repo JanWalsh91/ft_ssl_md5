@@ -90,7 +90,7 @@ do_test() {
 
 # # # echo "===== TESTS WITH SHA512 ====="
 
-do_test "file"						"./ft_ssl sha512 file"						"openssl sha -sha512 file"
+# do_test "file"						"./ft_ssl sha512 file"						"openssl sha -sha512 file"
 # do_test "file2"						"./ft_ssl sha512 file2"						"openssl sha -sha512 file2"
 # do_test "file3"						"./ft_ssl sha512 file3"						"openssl sha -sha512 file3"
 # do_test "file4"						"./ft_ssl sha512 file4"						"openssl sha -sha512 file4"
@@ -100,7 +100,6 @@ do_test "file"						"./ft_ssl sha512 file"						"openssl sha -sha512 file"
 
 # echo "======= additional options ========"
 
-# do_test "-x: test suite"			"./ft_ssl md5 -x"						"md5 -x"
-# do_test "-x: test suite and file"	"./ft_ssl md5 -x file7"					"md5 -x file7"
-# do_test "-x: test suite"			"./ft_ssl sha256 -x" 
-# do_test		"sha512"				"./ft_ssl sha256 -s \"test\""		
+do_test "-x: test suite md5"			"./ft_ssl md5 -x"						"md5 -x"
+do_test "-x: test suite sha256"		"./ft_ssl sha256 -x"
+do_test "-x: test suite sha512"		"./ft_ssl sha512 -x"
