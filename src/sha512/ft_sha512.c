@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/07 09:45:37 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 12:59:27 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void			sha512_from_file(t_task *task, t_sha512_state *state)
 		ft_strcat(task->error, strerror(errno));
 		return ;
 	}
-	while ((state->ret = read(fd, &state->buf, SHA512_BUFFER_SIZE)) == SHA512_BUFFER_SIZE)
+	while ((state->ret = read(fd, &state->buf, SHA512_BUFFER_SIZE))
+		== SHA512_BUFFER_SIZE)
 		sha512_update_state(state);
 	if (state->ret == -1)
 	{
@@ -91,7 +92,8 @@ void			sha512_from_string(t_task *task, t_sha512_state *state)
 		sha512_update_state(sha512_pad(state));
 	while (*p)
 	{
-		copy_length = ft_strlen(p) >= SHA512_BUFFER_SIZE ? SHA512_BUFFER_SIZE : ft_strlen(p);
+		copy_length = ft_strlen(p) >= SHA512_BUFFER_SIZE ? SHA512_BUFFER_SIZE
+			: ft_strlen(p);
 		ft_memcpy(state->buf, p, copy_length);
 		state->ret = copy_length;
 		p += copy_length;
@@ -105,12 +107,15 @@ void			sha512_from_string(t_task *task, t_sha512_state *state)
 
 void			sha512_from_stdin(t_task *task, t_sha512_state *state)
 {
-	while ((state->ret = read(0, &state->buf, SHA512_BUFFER_SIZE)) == SHA512_BUFFER_SIZE)
+	while ((state->ret = read(0, &state->buf, SHA512_BUFFER_SIZE))
+		== SHA512_BUFFER_SIZE)
 	{
+		state->buf[--state->ret] = '\0';
 		if ((task->opts | OPTION_P) == task->opts && state->ret)
 			ft_putstr((char *)state->buf);
 		sha512_update_state(state);
 	}
+	state->buf[--state->ret] = '\0';
 	if ((task->opts | OPTION_P) == task->opts && state->ret)
 		ft_putstr((char *)state->buf);
 	sha512_update_state(sha512_pad(state));

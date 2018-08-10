@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:06:15 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 12:55:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void			ft_md5(t_task *task)
 {
-	// printf("ft_md5\n");
 	t_md5_state *state;
 
 	if ((task->opts | OPTION_X) == task->opts)
@@ -48,7 +47,8 @@ void			md5_from_file(t_task *task, t_md5_state *state)
 		ft_strcat(task->error, strerror(errno));
 		return ;
 	}
-	while ((state->ret = read(fd, &state->buf, MD5_BUFFER_SIZE)) == MD5_BUFFER_SIZE)
+	while ((state->ret = read(fd, &state->buf, MD5_BUFFER_SIZE)) ==
+		MD5_BUFFER_SIZE)
 		md5_update_state(state);
 	if (state->ret == -1)
 	{
@@ -72,7 +72,8 @@ void			md5_from_string(t_task *task, t_md5_state *state)
 		md5_update_state(md5_pad(state));
 	while (*p)
 	{
-		copy_length = ft_strlen(p) >= MD5_BUFFER_SIZE ? MD5_BUFFER_SIZE : ft_strlen(p);
+		copy_length = ft_strlen(p) >= MD5_BUFFER_SIZE ? MD5_BUFFER_SIZE :
+			ft_strlen(p);
 		ft_memcpy(state->buf, p, copy_length);
 		state->ret = copy_length;
 		p += copy_length;
@@ -86,12 +87,15 @@ void			md5_from_string(t_task *task, t_md5_state *state)
 
 void			md5_from_stdin(t_task *task, t_md5_state *state)
 {
-	while ((state->ret = read(0, &state->buf, MD5_BUFFER_SIZE)) == MD5_BUFFER_SIZE)
+	while ((state->ret = read(0, &state->buf, MD5_BUFFER_SIZE)) ==
+		MD5_BUFFER_SIZE)
 	{
+		state->buf[--state->ret] = '\0';
 		if ((task->opts | OPTION_P) == task->opts && state->ret)
 			ft_putstr((char *)state->buf);
 		md5_update_state(state);
 	}
+	state->buf[--state->ret] = '\0';
 	if ((task->opts | OPTION_P) == task->opts && state->ret)
 		ft_putstr((char *)state->buf);
 	md5_update_state(md5_pad(state));

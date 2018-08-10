@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/26 14:43:42 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:05:58 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/08 10:37:12 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char					**md5_get_result_strings(void);
 /*
 ** Helper functions
 */
+
 uint32_t				md5_f(uint32_t x, uint32_t y, uint32_t z);
 uint32_t				md5_g(uint32_t x, uint32_t y, uint32_t z);
 uint32_t				md5_h(uint32_t x, uint32_t y, uint32_t z);

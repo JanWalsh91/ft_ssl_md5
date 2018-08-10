@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 12:21:51 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 17:14:47 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 13:08:43 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 # include "ft_ssl_helper_functions.h"
 
 typedef enum				e_option {
-	OPTION_S		= 0b000000001,
-	OPTION_P		= 0b000000010,
-	OPTION_Q		= 0b000000100,
-	OPTION_R		= 0b000001000,
-	OPTION_X		= 0b000010000,
-	OPTION_STDIN	= 0b001000000,
-	OPTION_INVALID	= 0b010000000,
-	OPTION_NOT		= 0b100000000
+	OPTION_S = 0b000000001,
+	OPTION_P = 0b000000010,
+	OPTION_Q = 0b000000100,
+	OPTION_R = 0b000001000,
+	OPTION_X = 0b000010000,
+	OPTION_STDIN = 0b001000000,
+	OPTION_INVALID = 0b010000000,
+	OPTION_NOT = 0b100000000
 }							t_option;
 
 typedef enum				e_command {
@@ -49,6 +49,10 @@ typedef struct				s_task {
 
 typedef void(*t_task_executor)(t_task *);
 
+void						parse_input(int ac, char **av);
+int							handle_tasks(t_task **tasks);
+void						execute_task(t_task *task);
+
 /*
 ** Print messages
 */
@@ -68,7 +72,16 @@ t_task						**handle_px_opts(t_task **tasks, t_command command,
 								int16_t *options);
 t_command					parse_command(char *arg);
 t_option					parse_option(char *arg);
-void						read_from_stdin(void);
+
+void						read_stdin(void);
+char						**get_user_input(int *i);
+char						**get_args(char *buf, int *ac);
+
+typedef struct				s_arg_list
+{
+	char					**args;
+	size_t					size;
+}							t_arg_list;
 
 /*
 ** Task manager

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/06 16:55:43 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/09 12:51:30 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_task		**handle_arguments(int ac, char **av)
 
 	if (!(tasks = (t_task**)ft_memalloc(sizeof(t_task**) * (ac + 1))))
 		return (NULL);
-	if ((command = parse_command(av[1])) == CMD_INVALID)
-		return (add_task(tasks, new_task(command, 0, av[1])));
-	if (ac <= 2)
+	if ((command = parse_command(av[0])) == CMD_INVALID)
+		return (add_task(tasks, new_task(command, 0, av[0])));
+	if (ac <= 1)
 		return (add_task(tasks, new_task(command, OPTION_STDIN | OPTION_Q, 0)));
 	tasks = handle_options(tasks, command, av);
 	return (tasks);
@@ -33,11 +33,10 @@ t_task		**handle_options(t_task **tasks, t_command command, char **av)
 	int		i;
 
 	options = 0;
-	i = 1;
+	i = 0;
 	while (av[++i])
 	{
 		options |= parse_option(av[i]);
-		// printf("options: %hd\n", options);
 		if ((options | OPTION_NOT) == options)
 			break ;
 		if ((options | OPTION_INVALID) == options)
@@ -56,7 +55,8 @@ t_task		**handle_options(t_task **tasks, t_command command, char **av)
 	return (tasks);
 }
 
-t_task		**handle_px_opts(t_task **tasks, t_command command, int16_t *options)
+t_task		**handle_px_opts(t_task **tasks, t_command command,
+				int16_t *options)
 {
 	if ((*options | OPTION_P) == *options)
 	{
@@ -66,7 +66,6 @@ t_task		**handle_px_opts(t_task **tasks, t_command command, int16_t *options)
 	}
 	if ((*options | OPTION_X) == *options)
 	{
-		// printf("handle X option\n");
 		tasks = add_task(tasks, new_task(command,
 			OPTION_X, NULL));
 		*options -= OPTION_X;
@@ -87,23 +86,17 @@ t_command	parse_command(char *arg)
 
 t_option	parse_option(char *arg)
 {
-	// printf("parse_option\n");
 	int			i;
 	t_option	opt;
 
 	if (arg[0] != '-' || (arg[0] == '-' && arg[1] == '\0'))
-	{
-		// printf("OPTION_NOT: %d\n", OPTION_NOT);
 		return (OPTION_NOT);
-	}
 	opt = 1;
 	i = -1;
 	while (g_options[++i])
 	{
 		if (!ft_strcmp(arg, g_options[i]))
 		{
-			// printf("option found: %s\n", g_options[i]);
-			// printf("OPTION_X: %d\n", OPTION_X);
 			if (arg == g_options[1])
 				return (OPTION_P);
 			return (opt);
