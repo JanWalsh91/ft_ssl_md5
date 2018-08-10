@@ -38,11 +38,11 @@ do_test() {
 
 
 
-do_test "no args"					"./ft_ssl"
-do_test "invalid cmd"				"./ft_ssl foobar"								"openssl foobar"
-do_test "invalid cmd"				"./ft_ssl foobar foobar2"						"openssl foobar foobar2"
+# do_test "no args"					"./ft_ssl"
+# do_test "invalid cmd"				"./ft_ssl foobar"								"openssl foobar"
+# do_test "invalid cmd"				"./ft_ssl foobar foobar2"						"openssl foobar foobar2"
 
-echo "====== TESTS WITH MD5 ======"
+# echo "====== TESTS WITH MD5 ======"
 
 do_test "non existing file"			"./ft_ssl md5 foobar"							"md5 foobar"
 do_test "file no rights"			"./ft_ssl md5 norights"							"md5 norights"
@@ -60,6 +60,7 @@ do_test "-q option"					"./ft_ssl md5 -q file"							"md5 -q file"
 do_test "read from stdin"			"echo \"And above all\" | ./ft_ssl md5"			"echo \"And above all\" | md5"
 do_test "read from stdin with -p"	"echo \"And above all\" | ./ft_ssl md5 -p"		"echo \"And above all\" | md5 -p"
 do_test "read from stdin with -p -r" "echo \"And above all\" | ./ft_ssl md5 -p -r"	"echo \"And above all\" | md5 -p -r" # FAIL
+do_test "read from stdin with -q -r" "echo \"Pity the living.\" | ./ft_ssl md5 -q -r" "echo \"Pity the living.\" | md5 -q -r"
 
 do_test "file"						"./ft_ssl md5 file"								"md5 file"
 do_test "file2"						"./ft_ssl md5 file2"							"md5 file2"
@@ -69,7 +70,7 @@ do_test "file5"						"./ft_ssl md5 file5"							"md5 file5"
 do_test "file6"						"./ft_ssl md5 file6"							"md5 file6"
 do_test "file7"						"./ft_ssl md5 file7"							"md5 file7"
 
-echo "===== TESTS WITH SHA256 ====="
+# echo "===== TESTS WITH SHA256 ====="
 
 do_test "-r and -s options"			"./ft_ssl sha256 -r -s test"
 do_test "-r and -s and -q options"	"./ft_ssl sha256 -q -r -s test"
@@ -88,7 +89,7 @@ do_test "file5"						"./ft_ssl sha256 file5"						"openssl sha -sha256 file5"
 do_test "file6"						"./ft_ssl sha256 file6"						"openssl sha -sha256 file6"
 do_test "file7"						"./ft_ssl sha256 file7"						"openssl sha -sha256 file7"
 
-echo "===== TESTS WITH SHA512 ====="
+# echo "===== TESTS WITH SHA512 ====="
 
 do_test "file"						"./ft_ssl sha512 file"						"openssl sha -sha512 file"
 do_test "file2"						"./ft_ssl sha512 file2"						"openssl sha -sha512 file2"
@@ -98,7 +99,7 @@ do_test "file5"						"./ft_ssl sha512 file5"						"openssl sha -sha512 file5"
 do_test "file6"						"./ft_ssl sha512 file6"						"openssl sha -sha512 file6"
 do_test "file7"						"./ft_ssl sha512 file7"						"openssl sha -sha512 file7"
 
-echo "======= additional options ========"
+# echo "======= additional options ========"
 
 do_test "-x: test suite md5"			"./ft_ssl md5 -x"						"md5 -x"
 do_test "-x: test suite sha256"		"./ft_ssl sha256 -x"

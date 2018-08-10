@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 12:13:45 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/10 13:33:11 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 14:13:23 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int		show_error_message(t_task *task)
 	ft_putchar('\n');
 	if ((task->cmd | CMD_INVALID) == task->cmd)
 		print_commands();
-	if ((task->opts | OPTION_INVALID) == task->opts)
+	if ((task->opts | OPTION_INVALID) == task->opts ||
+		(task->opts | OPTION_S) == task->opts)
 		print_usage();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 14:59:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/09 12:51:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 13:43:25 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_task		**handle_arguments(int ac, char **av)
 		return (NULL);
 	if ((command = parse_command(av[0])) == CMD_INVALID)
 		return (add_task(tasks, new_task(command, 0, av[0])));
-	if (ac <= 1)
-		return (add_task(tasks, new_task(command, OPTION_STDIN | OPTION_Q, 0)));
 	tasks = handle_options(tasks, command, av);
+	if (ac <= 1 || !tasks[0])
+		return (add_task(tasks, new_task(command, OPTION_STDIN | OPTION_Q, 0)));
 	return (tasks);
 }
 
