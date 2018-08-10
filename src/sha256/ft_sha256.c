@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/30 13:28:18 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/10 12:59:22 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 13:35:00 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,10 @@ void			sha256_from_stdin(t_task *task, t_sha256_state *state)
 	while ((state->ret = read(0, &state->buf, SHA256_BUFFER_SIZE))
 		== SHA256_BUFFER_SIZE)
 	{
-		state->buf[--state->ret] = '\0';
 		if ((task->opts | OPTION_P) == task->opts && state->ret)
 			ft_putstr((char *)state->buf);
 		sha256_update_state(state);
 	}
-	state->buf[--state->ret] = '\0';
 	if ((task->opts | OPTION_P) == task->opts && state->ret)
 		ft_putstr((char *)state->buf);
 	sha256_update_state(sha256_pad(state));

@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/22 16:46:57 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/10 12:55:30 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 13:34:53 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,10 @@ void			md5_from_stdin(t_task *task, t_md5_state *state)
 	while ((state->ret = read(0, &state->buf, MD5_BUFFER_SIZE)) ==
 		MD5_BUFFER_SIZE)
 	{
-		state->buf[--state->ret] = '\0';
 		if ((task->opts | OPTION_P) == task->opts && state->ret)
 			ft_putstr((char *)state->buf);
 		md5_update_state(state);
 	}
-	state->buf[--state->ret] = '\0';
 	if ((task->opts | OPTION_P) == task->opts && state->ret)
 		ft_putstr((char *)state->buf);
 	md5_update_state(md5_pad(state));

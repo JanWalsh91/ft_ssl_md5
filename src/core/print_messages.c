@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/20 12:13:45 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/03 11:32:01 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 13:33:11 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	print_usage(void)
 {
-	ft_putstr("usage: ft_ssl [md5, sha256] [-pqr] [-s string] [files ...]\n");
+	ft_putstr("usage: ft_ssl [md5, sha256, sha512] [-pqrx] [-s string] \
+[files ...]\n");
 }
 
 void	print_commands(void)
