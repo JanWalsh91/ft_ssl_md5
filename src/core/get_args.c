@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/10 12:44:52 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/10 13:03:49 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 14:28:57 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ char		**get_args(char *buf, int *ac)
 	{
 		if (ft_strchr(" \t\v\n", buf[i]))
 			continue;
-		if (!ft_strchr("'\" \t\v\n", buf[i]) &&
-			(i == 0 || (i > 0 && ft_strchr(" \t\v\n", buf[i - 1]))))
+		if (!ft_strchr("'\" \t\v\n", buf[i])
+			&& (i == 0 || (i > 0 && ft_strchr(" \t\v\n", buf[i - 1]))))
 			add_word(&args, get_word(buf, &i));
-		if (ft_strchr("'\"", buf[i]) &&
-			(i == 0 || (i > 0 && ft_strchr(" \t\v\n", buf[i - 1]))))
+		if (ft_strchr("'\"", buf[i])
+			&& (i == 0 || (i > 0 && ft_strchr(" \t\v\n", buf[i - 1]))))
 			add_word(&args, get_quote(buf, &i));
 	}
 	*ac = args.size;

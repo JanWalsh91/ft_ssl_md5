@@ -59,7 +59,7 @@ do_test "-r and -q options"			"./ft_ssl md5 -q -r file"						"md5 -q -r file"
 do_test "-q option"					"./ft_ssl md5 -q file"							"md5 -q file"
 do_test "read from stdin"			"echo \"And above all\" | ./ft_ssl md5"			"echo \"And above all\" | md5"
 do_test "read from stdin with -p"	"echo \"And above all\" | ./ft_ssl md5 -p"		"echo \"And above all\" | md5 -p"
-do_test "read from stdin with -p -r" "echo \"And above all\" | ./ft_ssl md5 -p -r"	"echo \"And above all\" | md5 -p -r" # FAIL
+do_test "read from stdin with -p -r" "echo \"And above all\" | ./ft_ssl md5 -p -r"	"echo \"And above all\" | md5 -p -r" # md5 error ?
 do_test "read from stdin with -q -r" "echo \"Pity the living.\" | ./ft_ssl md5 -q -r" "echo \"Pity the living.\" | md5 -q -r"
 
 do_test "file"						"./ft_ssl md5 file"								"md5 file"

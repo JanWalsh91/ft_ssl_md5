@@ -6,7 +6,7 @@
 /*   By: jwalsh <jwalsh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 16:49:43 by jwalsh            #+#    #+#             */
-/*   Updated: 2018/08/08 10:41:12 by jwalsh           ###   ########.fr       */
+/*   Updated: 2018/08/10 14:29:59 by jwalsh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void		print_task_result(t_task *task, char *verify)
 	static char	commands[10][64];
 
 	init_task_result_names(commands);
-	if ((task->opts | OPTION_Q) != task->opts &&
-		(task->opts | OPTION_R) != task->opts)
+	if ((task->opts | OPTION_Q) != task->opts
+		&& (task->opts | OPTION_R) != task->opts)
 	{
 		ft_putstr(commands[task->cmd]);
 		ft_putstr(" (");
@@ -26,8 +26,8 @@ void		print_task_result(t_task *task, char *verify)
 		ft_putstr(") = ");
 	}
 	ft_putstr(task->digest);
-	if ((task->opts | OPTION_Q) != task->opts &&
-		(task->opts | OPTION_R) == task->opts)
+	if ((task->opts | OPTION_Q) != task->opts
+		&& (task->opts | OPTION_R) == task->opts)
 	{
 		ft_putstr(" ");
 		print_task_name(task);
