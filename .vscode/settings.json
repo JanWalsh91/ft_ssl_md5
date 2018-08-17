@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"ft_ssl.h": "c",
-		"ft_ssl_helper_functions.h": "c",
-		"unistd.h": "c",
-		"ft_md5.h": "c",
-		"libft.h": "c"
-	}
-}
